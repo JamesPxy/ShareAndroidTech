@@ -15,7 +15,7 @@ import com.gyf.barlibrary.ImmersionBar
 @SuppressLint("NewApi")
 abstract class BaseActivity : AppCompatActivity() {
 
-    protected lateinit var immersionBar: ImmersionBar
+    protected var immersionBar: ImmersionBar? = null
 
     private val inputManger: InputMethodManager by lazy {
         getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -34,7 +34,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected open fun initImmersionBar() {
         immersionBar = ImmersionBar.with(this)
-        immersionBar.init()
+        immersionBar?.init()
     }
 
     /**

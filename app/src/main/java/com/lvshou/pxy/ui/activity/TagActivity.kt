@@ -48,7 +48,7 @@ class TagActivity : BaseActivity(), HotTagView, BaseQuickAdapter.OnItemChildClic
 
     override fun initImmersionBar() {
         super.initImmersionBar()
-        immersionBar.titleBar(R.id.toolbar).init()
+        immersionBar?.titleBar(R.id.toolbar)?.init()
     }
 
     override fun init() {
