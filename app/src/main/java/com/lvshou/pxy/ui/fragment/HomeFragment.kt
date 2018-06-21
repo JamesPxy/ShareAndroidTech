@@ -24,6 +24,7 @@ import com.lvshou.pxy.bean.HomeListResponse
 import com.lvshou.pxy.constant.Constant
 import com.lvshou.pxy.presenter.CollectArticlePresenterImpl
 import com.lvshou.pxy.presenter.HomePresenterImpl
+import com.lvshou.pxy.ui.activity.ArticleDetailActivity
 import com.lvshou.pxy.ui.activity.LoginAndRegisterActivity
 import com.lvshou.pxy.utils.HorizontalRecycleView
 import com.lvshou.pxy.utils.PreferenceUtils
@@ -198,24 +199,24 @@ class HomeFragment : BaseFragment(), HomeFragmentView, CollectArticleView, Swipe
      * ItemClickListener
      */
     private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
-        //        todo  点击看文章详情
-//        if (datas.size != 0) {
-//            Intent(activity, ContentActivity::class.java).run {
-//                putExtra(Constant.CONTENT_URL_KEY, datas[position].link)
-//                putExtra(Constant.CONTENT_ID_KEY, datas[position].id)
-//                putExtra(Constant.CONTENT_TITLE_KEY, datas[position].title)
-//                startActivity(this)
-//            }
-//        }
-    }
-    private val onBannerItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
-        /*if (mBannerList.size != 0) {
-            Intent(activity, ContentActivity::class.java).run {
-                putExtra(Constant.CONTENT_URL_KEY, bannerDatas[position].url)
-                putExtra(Constant.CONTENT_TITLE_KEY, bannerDatas[position].title)
+        // 点击看文章详情
+        if (mListData.size != 0) {
+            Intent(activity, ArticleDetailActivity::class.java).run {
+                putExtra(Constant.CONTENT_URL_KEY, mListData[position].link)
+                putExtra(Constant.CONTENT_ID_KEY, mListData[position].id)
+                putExtra(Constant.CONTENT_TITLE_KEY, mListData[position].title)
                 startActivity(this)
             }
-        }*/
+        }
+    }
+    private val onBannerItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
+        if (mBannerList.size != 0) {
+            Intent(activity, ArticleDetailActivity::class.java).run {
+                putExtra(Constant.CONTENT_URL_KEY, mBannerList[position].url)
+                putExtra(Constant.CONTENT_TITLE_KEY, mBannerList[position].title)
+                startActivity(this)
+            }
+        }
     }
     /**
      * ItemChildClickListener
