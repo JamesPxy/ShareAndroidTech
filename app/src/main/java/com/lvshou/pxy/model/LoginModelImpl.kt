@@ -35,9 +35,9 @@ class LoginModelImpl : LoginModel {
                 val result = loginAsync?.await()
                 result?.let {
                     presenter.loginSuccess(it)
-                }?.let {
+                }/*?.let {
                     presenter.loginFailed("返回数据为空")
-                }
+                }*/
             }
         }
     }
@@ -53,9 +53,9 @@ class LoginModelImpl : LoginModel {
                 val result = registerAsync?.await()
                 result?.let {
                     presenter.loginSuccess(result)
-                }?.let {
+                }/*?.let {
                     presenter.registerFailed("返回数据为空")
-                }
+                }*/
             }
         }
     }

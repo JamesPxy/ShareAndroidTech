@@ -11,6 +11,7 @@
     <string name="share_article_url">%1$s分享【%2$s】：%3$s</string>
 
     <string name="login_hint">请先登录</string>
+    <string name="outside_title">站外文章</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

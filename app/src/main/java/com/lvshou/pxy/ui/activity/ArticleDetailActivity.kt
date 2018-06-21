@@ -10,13 +10,26 @@ import com.just.agentweb.AgentWeb
 import com.just.agentweb.ChromeClientCallbackManager
 import com.lvshou.pxy.R
 import com.lvshou.pxy.base.BaseActivity
+import com.lvshou.pxy.bean.HomeListResponse
 import com.lvshou.pxy.constant.Constant
+import com.lvshou.pxy.presenter.CollectArticlePresenterImpl
+import com.lvshou.pxy.presenter.CollectOutsidePresenter
+import com.lvshou.pxy.presenter.CollectOutsidePresenterImpl
 import com.lvshou.pxy.utils.PreferenceUtils
+import com.lvshou.pxy.view.CollectArticleView
 import getAgentWeb
 import kotlinx.android.synthetic.main.activity_article_detail.*
 import toast
 
-class ArticleDetailActivity : BaseActivity() {
+class ArticleDetailActivity : BaseActivity(),CollectArticleView {
+
+    override fun collectArticleSuccess(result: HomeListResponse, isAdd: Boolean) {
+        toast("收藏成功")
+    }
+
+    override fun collectArticleFailed(errorMessage: String?, isAdd: Boolean) {
+        errorMessage?.let { toast(it) }
+    }
 
     private lateinit var agentWeb: AgentWeb
     private lateinit var shareTitle: String
@@ -25,6 +38,9 @@ class ArticleDetailActivity : BaseActivity() {
 
     private var isLogin: Boolean by PreferenceUtils(Constant.LOGIN_KEY, false)
 
+    private val  presenter:CollectOutsidePresenterImpl by lazy {
+        CollectOutsidePresenterImpl(this)
+    }
 
     override fun initImmersionBar() {
         super.initImmersionBar()
@@ -120,21 +136,15 @@ class ArticleDetailActivity : BaseActivity() {
                     }
                     toast(getString(R.string.login_hint))
                     return true
+                }else{
+                    presenter.collectOutSideArticle(
+                            shareId,
+                            shareTitle,
+                            getString(R.string.outside_title),
+                            shareUrl,
+                            true)
+                    return true
                 }
-                /*   // login
-                   // Collection outside article
-                   if (shareId == 0) {
-                       collectArticlePresenter.collectOutSideArticle(
-                               shareTitle,
-                               getString(R.string.outside_title),
-                               shareUrl,
-                               true
-                       )
-                       return true
-                   }
-                   // Collection station article
-                   collectArticlePresenter.collectArticle(shareId, true)
-                   return true*/
             }
             R.id.menuBrowser -> {
                 Intent().run {
