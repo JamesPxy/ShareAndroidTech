@@ -9,6 +9,8 @@ import com.lvshou.pxy.bean.HomeListResponse
  */
 interface CollectArticlePresenter {
 
+    fun collectArticle(id: Int, isAdd: Boolean)
+
     fun collectArticleSuccess(result: HomeListResponse, isAdd: Boolean)
 
     fun collectArticleFailed(errorMessage: String?, isAdd: Boolean)
