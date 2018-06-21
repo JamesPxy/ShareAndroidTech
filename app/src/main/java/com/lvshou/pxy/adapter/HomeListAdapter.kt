@@ -4,7 +4,7 @@ import android.content.Context
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.lvshou.pxy.R
-import top.jowanxu.wanandroidclient.bean.Datas
+import com.lvshou.pxy.bean.Datas
 
 /**
  * @desc：

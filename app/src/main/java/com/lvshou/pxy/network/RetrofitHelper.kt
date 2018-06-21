@@ -1,4 +1,5 @@
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
+import com.lvshou.pxy.constant.Constant
 import com.lvshou.pxy.utils.PreferenceUtils
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

@@ -1,8 +1,8 @@
 package com.lvshou.pxy.presenter
 
+import com.lvshou.pxy.bean.LoginResponse
 import com.lvshou.pxy.model.LoginModelImpl
 import com.lvshou.pxy.view.LoginView
-import top.jowanxu.wanandroidclient.bean.LoginResponse
 
 /**
  * @desc：

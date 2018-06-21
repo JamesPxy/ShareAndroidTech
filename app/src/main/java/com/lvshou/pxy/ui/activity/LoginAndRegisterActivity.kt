@@ -1,16 +1,16 @@
 package com.lvshou.pxy.ui.activity
 
-import Constant
 import android.content.Intent
 import android.view.View
 import com.lvshou.pxy.R
 import com.lvshou.pxy.base.BaseActivity
+import com.lvshou.pxy.bean.LoginResponse
+import com.lvshou.pxy.constant.Constant
 import com.lvshou.pxy.presenter.LoginPresenterImpl
 import com.lvshou.pxy.utils.PreferenceUtils
 import com.lvshou.pxy.view.LoginView
 import kotlinx.android.synthetic.main.activity_login.*
 import toast
-import top.jowanxu.wanandroidclient.bean.LoginResponse
 
 class LoginAndRegisterActivity : BaseActivity(), LoginView, View.OnClickListener {
 

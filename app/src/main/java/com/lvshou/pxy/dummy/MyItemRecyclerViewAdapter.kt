@@ -1,16 +1,14 @@
 package com.lvshou.pxy.dummy
 
+
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-
-
-import com.lvshou.pxy.dummy.ItemFragment.OnListFragmentInteractionListener
 import com.lvshou.pxy.R
 import com.lvshou.pxy.dummy.DummyContent.DummyItem
-
+import com.lvshou.pxy.dummy.ItemFragment.OnListFragmentInteractionListener
 import kotlinx.android.synthetic.main.fragment_item.view.*
 
 /**

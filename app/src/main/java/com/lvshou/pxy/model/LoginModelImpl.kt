@@ -2,11 +2,11 @@ package com.lvshou.pxy.model
 
 import RetrofitHelper
 import cancelByActive
+import com.lvshou.pxy.bean.LoginResponse
 import com.lvshou.pxy.presenter.LoginPresenter
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
-import top.jowanxu.wanandroidclient.bean.LoginResponse
 import tryCatch
 
 /**

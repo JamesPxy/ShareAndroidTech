@@ -1,6 +1,5 @@
 package com.lvshou.pxy.ui.fragment
 
-import Constant
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
@@ -17,6 +16,9 @@ import com.lvshou.pxy.adapter.HomeBannerAdapter
 import com.lvshou.pxy.adapter.HomeListAdapter
 import com.lvshou.pxy.base.BaseFragment
 import com.lvshou.pxy.bean.BannerResponse
+import com.lvshou.pxy.bean.Datas
+import com.lvshou.pxy.bean.HomeListResponse
+import com.lvshou.pxy.constant.Constant
 import com.lvshou.pxy.presenter.HomePresenterImpl
 import com.lvshou.pxy.ui.activity.LoginAndRegisterActivity
 import com.lvshou.pxy.utils.HorizontalRecycleView
@@ -28,8 +30,6 @@ import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import toast
-import top.jowanxu.wanandroidclient.bean.Datas
-import top.jowanxu.wanandroidclient.bean.HomeListResponse
 
 /**
  * @desc：首页： 轮播组件和首页文章列表
@@ -205,6 +205,7 @@ class HomeFragment : BaseFragment(), HomeFragmentView, SwipeRefreshLayout.OnRefr
                     val data = mListData[position]
                     when (view.id) {
                         R.id.homeItemType -> {
+                            activity?.toast("待开发")
 //                            data.chapterName ?: let {
 //                                activity?.toast(getString(R.string.type_null))
 //                                return@OnItemChildClickListener

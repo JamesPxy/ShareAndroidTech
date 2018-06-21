@@ -4,7 +4,7 @@ import android.content.Context
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.lvshou.pxy.R
-import top.jowanxu.wanandroidclient.bean.HotKeyResponse
+import com.lvshou.pxy.bean.HotKeyResponse
 
 /**
  * @desc：热门标签适配器

@@ -1,3 +1,5 @@
+package com.lvshou.pxy.constant
+
 import android.widget.Toast
 
 /**

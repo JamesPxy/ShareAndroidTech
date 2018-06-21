@@ -1,9 +1,9 @@
 package com.lvshou.pxy.presenter
 
 import com.lvshou.pxy.bean.BannerResponse
+import com.lvshou.pxy.bean.HomeListResponse
 import com.lvshou.pxy.model.HomeModelImpl
 import com.lvshou.pxy.view.HomeFragmentView
-import top.jowanxu.wanandroidclient.bean.HomeListResponse
 
 /**
  * @desc：

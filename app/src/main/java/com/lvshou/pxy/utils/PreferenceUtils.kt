@@ -1,9 +1,9 @@
 package com.lvshou.pxy.utils
 
-import Constant
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import com.lvshou.pxy.constant.Constant
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 

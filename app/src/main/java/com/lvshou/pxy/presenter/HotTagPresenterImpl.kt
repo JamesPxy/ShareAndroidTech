@@ -1,8 +1,8 @@
 package com.lvshou.pxy.presenter
 
+import com.lvshou.pxy.bean.HotKeyResponse
 import com.lvshou.pxy.model.HotTagModelImpl
 import com.lvshou.pxy.view.HotTagView
-import top.jowanxu.wanandroidclient.bean.HotKeyResponse
 
 /**
  * @desc：

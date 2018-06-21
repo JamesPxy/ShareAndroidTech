@@ -1,4 +1,4 @@
-package top.jowanxu.wanandroidclient.bean
+package  com.lvshou.pxy.bean
 
 data class HotKeyResponse(
     var errorCode: Int,
