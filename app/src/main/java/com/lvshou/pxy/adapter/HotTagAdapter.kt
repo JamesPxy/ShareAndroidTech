@@ -1,10 +1,12 @@
 package com.lvshou.pxy.adapter
 
 import android.content.Context
+import android.graphics.Color
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.lvshou.pxy.R
 import com.lvshou.pxy.bean.HotKeyResponse
+import getRandomColor
 
 /**
  * @desc：热门标签适配器
@@ -15,7 +17,16 @@ class HotTagAdapter(val context: Context?, list: MutableList<HotKeyResponse.Data
 
     override fun convert(helper: BaseViewHolder, item: HotKeyResponse.Data?) {
         item ?: return
-        helper.setText(R.id.tvTag, item.name)
-        helper.addOnClickListener(R.id.tvTag)
+
+        val parseColor = try {
+            Color.parseColor(getRandomColor())
+        } catch (_: Exception) {
+        }
+        helper.apply {
+            setText(R.id.tvTag, item.name)
+            addOnClickListener(R.id.tvTag)
+            parseColor?.let { setTextColor(R.id.tvTag, it as Int) }
+        }
+
     }
 }

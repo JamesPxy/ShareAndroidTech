@@ -1,5 +1,6 @@
 package com.lvshou.pxy.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -10,17 +11,16 @@ import com.google.android.flexbox.*
 import com.lvshou.pxy.R
 import com.lvshou.pxy.adapter.HotTagAdapter
 import com.lvshou.pxy.base.BaseFragment
+import com.lvshou.pxy.bean.HotKeyResponse
+import com.lvshou.pxy.constant.Constant
 import com.lvshou.pxy.presenter.HotTagPresenterImpl
+import com.lvshou.pxy.ui.activity.ArticleDetailActivity
 import com.lvshou.pxy.view.HotTagView
 import kotlinx.android.synthetic.main.activity_tag.*
 import loge
 import toast
-import top.jowanxu.wanandroidclient.bean.HotKeyResponse
 
 class TagFragment : BaseFragment(), HotTagView, BaseQuickAdapter.OnItemChildClickListener {
-    override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-        activity?.toast("onclick: $position")
-    }
 
     private val presenter: HotTagPresenterImpl by lazy {
         HotTagPresenterImpl(this)
@@ -82,4 +82,14 @@ class TagFragment : BaseFragment(), HotTagView, BaseQuickAdapter.OnItemChildClic
     override fun cancelRequest() {
         presenter.cancelRequest()
     }
+
+    override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+        activity?.toast("onclick: $position")
+        Intent(activity, ArticleDetailActivity::class.java).run {
+            putExtra(Constant.CONTENT_URL_KEY, hotTagDatas[position].link as String)
+            putExtra(Constant.CONTENT_TITLE_KEY, hotTagDatas[position].name)
+            startActivity(this)
+        }
+    }
+
 }
