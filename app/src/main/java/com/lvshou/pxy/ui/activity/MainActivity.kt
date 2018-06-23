@@ -11,6 +11,7 @@ import com.lvshou.pxy.TestKotlinFragment
 import com.lvshou.pxy.dummy.DummyContent
 import com.lvshou.pxy.dummy.ItemFragment
 import com.lvshou.pxy.ui.fragment.HomeFragment
+import com.lvshou.pxy.ui.fragment.TagFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, ItemFragment.OnListFragmentInteractionListener {
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, ItemFr
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         var adapter = MyPagerAdapter(supportFragmentManager)
-        val list = mutableListOf(HomeFragment(), TestKotlinFragment(), ItemFragment())
+        val list = mutableListOf(HomeFragment(), TagFragment(), ItemFragment())
         adapter.setData(list)
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = 3

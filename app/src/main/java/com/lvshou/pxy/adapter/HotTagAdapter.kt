@@ -10,7 +10,7 @@ import top.jowanxu.wanandroidclient.bean.HotKeyResponse
  * @desc：热门标签适配器
  * Created by JamesPxy on 2018/6/13 16:01
  */
-class HotTagAdapter(val context: Context, list: MutableList<HotKeyResponse.Data>)
+class HotTagAdapter(val context: Context?, list: MutableList<HotKeyResponse.Data>)
     : BaseQuickAdapter<HotKeyResponse.Data, BaseViewHolder>(R.layout.item_hot_tag, list) {
 
     override fun convert(helper: BaseViewHolder, item: HotKeyResponse.Data?) {
