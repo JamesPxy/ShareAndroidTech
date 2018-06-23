@@ -84,7 +84,7 @@ class TagFragment : BaseFragment(), HotTagView, BaseQuickAdapter.OnItemChildClic
     }
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-        activity?.toast("onclick: $position")
+//        activity?.toast("onclick: $position")
         Intent(activity, ArticleDetailActivity::class.java).run {
             putExtra(Constant.CONTENT_URL_KEY, hotTagDatas[position].link as String)
             putExtra(Constant.CONTENT_TITLE_KEY, hotTagDatas[position].name)

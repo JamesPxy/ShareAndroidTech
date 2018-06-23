@@ -21,11 +21,15 @@ class HotTagAdapter(val context: Context?, list: MutableList<HotKeyResponse.Data
         val parseColor = try {
             Color.parseColor(getRandomColor())
         } catch (_: Exception) {
+            @Suppress("DEPRECATION")
+            context?.resources?.getColor(R.color.tag_bg_color)
         }
         helper.apply {
             setText(R.id.tvTag, item.name)
             addOnClickListener(R.id.tvTag)
-            parseColor?.let { setTextColor(R.id.tvTag, it as Int) }
+            if (null != parseColor) {
+                setTextColor(R.id.tvTag, parseColor)
+            }
         }
 
     }

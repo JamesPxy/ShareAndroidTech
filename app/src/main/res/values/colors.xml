@@ -15,4 +15,6 @@
     <color name="while_most_color">#e4e4e4</color>
     <color name="black_trans">#5c000000</color>
 
+    <color name="tag_bg_color">#e4e4e6</color>
+
 </resources>
