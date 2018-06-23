@@ -1,4 +1,4 @@
-package top.jowanxu.wanandroidclient.bean
+package  com.lvshou.pxy.bean
 
 data class FriendListResponse(
     var errorCode: Int,

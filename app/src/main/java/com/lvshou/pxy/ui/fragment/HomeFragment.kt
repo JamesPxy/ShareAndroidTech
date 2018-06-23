@@ -1,8 +1,8 @@
 package com.lvshou.pxy.ui.fragment
 
-import Constant
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat.startActivityForResult
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.PagerSnapHelper
@@ -11,16 +11,24 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.lvshou.pxy.R
+import com.lvshou.pxy.R.id.*
 import com.lvshou.pxy.adapter.HomeBannerAdapter
 import com.lvshou.pxy.adapter.HomeListAdapter
 import com.lvshou.pxy.base.BaseFragment
 import com.lvshou.pxy.bean.BannerResponse
+import com.lvshou.pxy.bean.Datas
+import com.lvshou.pxy.bean.HomeListResponse
+import com.lvshou.pxy.constant.Constant
+import com.lvshou.pxy.presenter.CollectArticlePresenterImpl
 import com.lvshou.pxy.presenter.HomePresenterImpl
+import com.lvshou.pxy.ui.activity.ArticleDetailActivity
 import com.lvshou.pxy.ui.activity.LoginAndRegisterActivity
 import com.lvshou.pxy.utils.HorizontalRecycleView
 import com.lvshou.pxy.utils.PreferenceUtils
+import com.lvshou.pxy.view.CollectArticleView
 import com.lvshou.pxy.view.HomeFragmentView
 import inflater
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -28,14 +36,12 @@ import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import toast
-import top.jowanxu.wanandroidclient.bean.Datas
-import top.jowanxu.wanandroidclient.bean.HomeListResponse
 
 /**
  * @desc：首页： 轮播组件和首页文章列表
  * Created by JamesPxy on 2018/6/15 12:15
  */
-class HomeFragment : BaseFragment(), HomeFragmentView, SwipeRefreshLayout.OnRefreshListener {
+class HomeFragment : BaseFragment(), HomeFragmentView, CollectArticleView, SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var bannerRecyclerView: HorizontalRecycleView
 
@@ -43,6 +49,9 @@ class HomeFragment : BaseFragment(), HomeFragmentView, SwipeRefreshLayout.OnRefr
 
     private val presenter: HomePresenterImpl by lazy {
         HomePresenterImpl(this)
+    }
+    private val collectArticlePresenter: CollectArticlePresenterImpl by lazy {
+        CollectArticlePresenterImpl(this)
     }
 
     private val mBannerList = mutableListOf<BannerResponse.Data>()
@@ -121,7 +130,7 @@ class HomeFragment : BaseFragment(), HomeFragmentView, SwipeRefreshLayout.OnRefr
         }
 
         floatingActionButton.setOnClickListener {
-//            recyclerView.smoothScrollToPosition(0)
+            //            recyclerView.smoothScrollToPosition(0)
             recyclerView.scrollToPosition(0)
         }
     }
@@ -173,28 +182,41 @@ class HomeFragment : BaseFragment(), HomeFragmentView, SwipeRefreshLayout.OnRefr
         presenter.cancelRequest()
     }
 
+    override fun collectArticleSuccess(result: HomeListResponse, isAdd: Boolean) {
+        if (isAdd) {
+            activity?.toast("收藏成功")
+        } else {
+            activity?.toast("取消收藏成功")
+        }
+    }
+
+    override fun collectArticleFailed(errorMessage: String?, isAdd: Boolean) {
+        errorMessage?.let { activity?.toast(it) }
+    }
+
+
     /**
      * ItemClickListener
      */
     private val onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
-        //        todo  点击看文章详情
-//        if (datas.size != 0) {
-//            Intent(activity, ContentActivity::class.java).run {
-//                putExtra(Constant.CONTENT_URL_KEY, datas[position].link)
-//                putExtra(Constant.CONTENT_ID_KEY, datas[position].id)
-//                putExtra(Constant.CONTENT_TITLE_KEY, datas[position].title)
-//                startActivity(this)
-//            }
-//        }
-    }
-    private val onBannerItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
-        /*if (mBannerList.size != 0) {
-            Intent(activity, ContentActivity::class.java).run {
-                putExtra(Constant.CONTENT_URL_KEY, bannerDatas[position].url)
-                putExtra(Constant.CONTENT_TITLE_KEY, bannerDatas[position].title)
+        // 点击看文章详情
+        if (mListData.size != 0) {
+            Intent(activity, ArticleDetailActivity::class.java).run {
+                putExtra(Constant.CONTENT_URL_KEY, mListData[position].link)
+                putExtra(Constant.CONTENT_ID_KEY, mListData[position].id)
+                putExtra(Constant.CONTENT_TITLE_KEY, mListData[position].title)
                 startActivity(this)
             }
-        }*/
+        }
+    }
+    private val onBannerItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
+        if (mBannerList.size != 0) {
+            Intent(activity, ArticleDetailActivity::class.java).run {
+                putExtra(Constant.CONTENT_URL_KEY, mBannerList[position].url)
+                putExtra(Constant.CONTENT_TITLE_KEY, mBannerList[position].title)
+                startActivity(this)
+            }
+        }
     }
     /**
      * ItemChildClickListener
@@ -205,6 +227,7 @@ class HomeFragment : BaseFragment(), HomeFragmentView, SwipeRefreshLayout.OnRefr
                     val data = mListData[position]
                     when (view.id) {
                         R.id.homeItemType -> {
+                            activity?.toast("待开发")
 //                            data.chapterName ?: let {
 //                                activity?.toast(getString(R.string.type_null))
 //                                return@OnItemChildClickListener
@@ -221,8 +244,8 @@ class HomeFragment : BaseFragment(), HomeFragmentView, SwipeRefreshLayout.OnRefr
                                 val collect = data.collect
                                 data.collect = !collect
                                 mHomeAdapter.setData(position, data)
-//                                TODO 收藏文章
-//                                presenter.collectArticle(data.id, !collect)
+                                //收藏文章
+                                collectArticlePresenter.collectArticle(data.id, !collect)
                             } else {
                                 Intent(activity, LoginAndRegisterActivity::class.java).run {
                                     startActivityForResult(this, Constant.MAIN_REQUEST_CODE)

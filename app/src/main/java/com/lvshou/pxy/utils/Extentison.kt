@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.ChromeClientCallbackManager
+import com.lvshou.pxy.constant.Constant
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.JobCancellationException
 

@@ -7,12 +7,12 @@ import com.google.android.flexbox.*
 import com.lvshou.pxy.R
 import com.lvshou.pxy.adapter.HotTagAdapter
 import com.lvshou.pxy.base.BaseActivity
+import com.lvshou.pxy.bean.HotKeyResponse
 import com.lvshou.pxy.presenter.HotTagPresenterImpl
 import com.lvshou.pxy.view.HotTagView
 import kotlinx.android.synthetic.main.activity_tag.*
 import loge
 import toast
-import top.jowanxu.wanandroidclient.bean.HotKeyResponse
 
 /**
  * 热门搜索：http://www.wanandroid.com/hotkey/json

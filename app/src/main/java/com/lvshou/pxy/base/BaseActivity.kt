@@ -3,7 +3,6 @@ package com.lvshou.pxy.base
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import android.view.inputmethod.InputMethodManager
 import com.gyf.barlibrary.ImmersionBar

@@ -1,6 +1,6 @@
 package com.lvshou.pxy.view
 
-import top.jowanxu.wanandroidclient.bean.HotKeyResponse
+import com.lvshou.pxy.bean.HotKeyResponse
 
 /**
  * @desc：

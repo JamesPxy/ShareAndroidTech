@@ -1,7 +1,7 @@
 package com.lvshou.pxy.view
 
 import com.lvshou.pxy.bean.BannerResponse
-import top.jowanxu.wanandroidclient.bean.HomeListResponse
+import com.lvshou.pxy.bean.HomeListResponse
 
 /**
  * @desc：

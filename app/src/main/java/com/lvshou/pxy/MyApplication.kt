@@ -2,7 +2,6 @@ package com.lvshou.pxy
 
 import android.app.Application
 import android.content.ComponentCallbacks2
-import android.preference.Preference
 import com.bumptech.glide.Glide
 import com.lvshou.pxy.utils.PreferenceUtils
 import com.squareup.leakcanary.LeakCanary
