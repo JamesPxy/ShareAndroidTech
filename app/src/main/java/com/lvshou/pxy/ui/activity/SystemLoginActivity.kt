@@ -29,7 +29,7 @@ import java.util.*
 /**
  * A login screen that offers login via email/password.
  */
-@Deprecated("系统自带登录界面")
+//@Deprecated("系统自带登录界面")
 class SystemLoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.

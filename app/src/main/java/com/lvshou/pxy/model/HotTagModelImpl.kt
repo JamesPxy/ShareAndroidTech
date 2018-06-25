@@ -29,7 +29,8 @@ class HotTagModelImpl : HotTagModel {
                 it.printStackTrace()
             }) {
                 getHotTagAsync?.cancelByActive()
-                getHotTagAsync = RetrofitHelper.retrofitService.getHotKeyList()
+//                getHotTagAsync = RetrofitHelper.retrofitService.getHotKeyList()
+                getHotTagAsync = RetrofitHelper.retrofitService.getFriendList()
                 val result = getHotTagAsync?.await()
                 result?.let {
                     hotResult = it

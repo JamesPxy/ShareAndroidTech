@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.lvshou.pxy.R
 import com.lvshou.pxy.bean.HotKeyResponse
 import getRandomColor
+import loge
 
 /**
  * @desc：热门标签适配器
@@ -20,9 +21,10 @@ class HotTagAdapter(val context: Context?, list: MutableList<HotKeyResponse.Data
 
         val parseColor = try {
             Color.parseColor(getRandomColor())
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            loge("HotTagAdapter exception:",e.localizedMessage)
             @Suppress("DEPRECATION")
-            context?.resources?.getColor(R.color.tag_bg_color)
+            context?.resources?.getColor(R.color.black)
         }
         helper.apply {
             setText(R.id.tvTag, item.name)

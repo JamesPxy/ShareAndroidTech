@@ -1,6 +1,8 @@
 import com.lvshou.pxy.bean.*
+import io.reactivex.Observable
 import kotlinx.coroutines.experimental.Deferred
 import retrofit2.http.*
+import java.util.*
 
 /**
  * Retrofit请求api
@@ -12,11 +14,20 @@ interface RetrofitService {
      * http://www.wanandroid.com/article/list/0/json
      * @param page page
      */
-
     @GET("/article/list/{page}/json")
     fun getHomeList(
             @Path("page") page: Int
     ): Deferred<HomeListResponse>
+
+    //test zip
+    @GET("/article/list/{page}/json")
+    fun getData1(
+            @Path("page") page: Int
+    ): Observable<HomeListResponse>
+
+    @GET("/friend/json")
+    fun getData2(): Observable<FriendListResponse>
+    //test zip
 
     /**
      * 知识体系
@@ -42,7 +53,8 @@ interface RetrofitService {
      * http://www.wanandroid.com/friend/json
      */
     @GET("/friend/json")
-    fun getFriendList(): Deferred<FriendListResponse>
+    fun getFriendList(): Deferred<HotKeyResponse>
+//    fun getFriendList(): Deferred<FriendListResponse>
 
     /**
      * 大家都在搜

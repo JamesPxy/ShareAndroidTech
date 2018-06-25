@@ -85,7 +85,14 @@ fun encodeCookie(cookies: List<String>): String {
  * get random color
  * @return 16777215 is FFFFFF, 0 is 000000
  */
-fun getRandomColor(): String = "#${Integer.toHexString((Math.random() * 16777215).toInt())}"
+//fun getRandomColor(): String = "#${Integer.toHexString((Math.random() * 16777215).toInt())}"
+
+fun getRandomColor(): String {
+//    val ranColor = intArrayOf(0x00FF4500, 0x00FF1493, -0x00FFD700, 0x00E066FF, 0x00CDAD00, 0x007CFC00) //0xff000000 | random.nextInt(0x00ffffff);
+    val ranColor = mutableListOf("#FF4500", "#EEC900", "#EE2C2C", "#CD69C9", "#CDAD00", "#836FFF") //0xff000000 | random.nextInt(0x00ffffff);
+    return ranColor[((Math.random() * 6).toInt())]
+// return   "#${Integer.toHexString((Math.random() * 16777215).toInt())}"
+}
 
 /**
  * getAgentWeb
