@@ -221,7 +221,7 @@ class SystemLoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
     }
 
     private fun addEmailsToAutoComplete(emailAddressCollection: List<String>) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
+        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown fragmentList.
         val adapter = ArrayAdapter(this@SystemLoginActivity,
                 android.R.layout.simple_dropdown_item_1line, emailAddressCollection)
 

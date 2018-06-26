@@ -3,8 +3,10 @@ package com.lvshou.pxy
 import android.app.Application
 import android.content.ComponentCallbacks2
 import com.bumptech.glide.Glide
+import com.lvshou.pxy.utils.CrashCatcher
 import com.lvshou.pxy.utils.PreferenceUtils
 import com.squareup.leakcanary.LeakCanary
+import loge
 
 /**
  * @desc：
@@ -17,7 +19,16 @@ class MyApplication : Application() {
         if (BuildConfig.DEBUG) {
             LeakCanary.install(this)
         }
+        //初始化 PreferenceUtils
         PreferenceUtils.setContext(applicationContext)
+
+        //用不crash
+        CrashCatcher.install { _, throwable ->
+            var error=throwable.stackTrace
+            loge("application",error.contentToString())
+            loge("application crash",throwable.localizedMessage)
+        }
+
     }
 
     override fun onTrimMemory(level: Int) {
@@ -35,4 +46,5 @@ class MyApplication : Application() {
         // low memory clear Glide cache
         Glide.get(this).clearMemory()
     }
+
 }

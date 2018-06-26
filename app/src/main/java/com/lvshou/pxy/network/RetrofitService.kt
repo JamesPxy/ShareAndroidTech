@@ -11,7 +11,8 @@ interface RetrofitService {
 
     /**
      * 首页数据
-     * http://www.wanandroid.com/article/list/0/json
+     * http://www.wanandroid.com/article/fragmentList/0/json
+     * http://www.wanandroid.com/article/list/1/json。
      * @param page page
      */
     @GET("/article/list/{page}/json")
@@ -20,7 +21,7 @@ interface RetrofitService {
     ): Deferred<HomeListResponse>
 
     //test zip
-    @GET("/article/list/{page}/json")
+    @GET("/article/fragmentList/{page}/json")
     fun getData1(
             @Path("page") page: Int
     ): Observable<HomeListResponse>
@@ -38,11 +39,11 @@ interface RetrofitService {
 
     /**
      * 知识体系下的文章
-     * http://www.wanandroid.com/article/list/0/json?cid=168
+     * http://www.wanandroid.com/article/fragmentList/0/json?cid=168
      * @param page page
      * @param cid cid
      */
-    @GET("/article/list/{page}/json")
+    @GET("/article/fragmentList/{page}/json")
     fun getArticleList(
             @Path("page") page: Int,
             @Query("cid") cid: Int
@@ -109,7 +110,7 @@ interface RetrofitService {
      * @param page page
      * @return Deferred<HomeListResponse>
      */
-    @GET("/lg/collect/list/{page}/json")
+    @GET("/lg/collect/fragmentList/{page}/json")
     fun getLikeList(
             @Path("page") page: Int
     ): Deferred<HomeListResponse>

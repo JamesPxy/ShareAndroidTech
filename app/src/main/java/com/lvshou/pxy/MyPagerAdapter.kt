@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.view.ViewGroup
+import com.lvshou.pxy.base.BaseFragment
 
 /**
  * @desc：
@@ -12,9 +13,9 @@ import android.view.ViewGroup
  */
 class MyPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
-    private lateinit var list: MutableList<Fragment>
+    private lateinit var list: List<Fragment>
 
-    fun setData(list: MutableList<Fragment>) {
+    fun setData(list: List<Fragment>) {
         this.list = list
     }
 

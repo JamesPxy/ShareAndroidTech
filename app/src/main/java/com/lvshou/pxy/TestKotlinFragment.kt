@@ -11,7 +11,7 @@ import android.view.ViewGroup
 /**
  * A fragment with a Google +1 button.
  */
-class TestKotlinFragment : Fragment() {
+class TestKotlinFragment : Fragment(){
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

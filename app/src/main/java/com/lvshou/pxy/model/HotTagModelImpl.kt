@@ -16,7 +16,7 @@ import tryCatch
 class HotTagModelImpl : HotTagModel {
 
     /**
-     * Friend list async
+     * Friend fragmentList async
      */
     private var getHotTagAsync: Deferred<HotKeyResponse>? = null
 
