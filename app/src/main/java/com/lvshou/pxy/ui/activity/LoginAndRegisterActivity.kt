@@ -3,6 +3,7 @@ package com.lvshou.pxy.ui.activity
 import android.content.Intent
 import android.view.View
 import com.lvshou.pxy.R
+import com.lvshou.pxy.R.id.*
 import com.lvshou.pxy.base.BaseActivity
 import com.lvshou.pxy.bean.LoginResponse
 import com.lvshou.pxy.constant.Constant

@@ -17,6 +17,7 @@ object Constant {
     const val LOGIN_KEY = "login"
     const val USERNAME_KEY = "username"
     const val PASSWORD_KEY = "password"
+    const val START_APP_COUNT = "count"
     /**
      * result null
      */

@@ -51,7 +51,7 @@ class PreferenceUtils<T>(private val name: String, private val default: T) : Rea
     }
 
     @SuppressLint("CommitPrefEdits", "NewApi")
-    private fun <U> putPreference(name: String, value: U) = with(preferences.edit()) {
+    public fun <U> putPreference(name: String, value: U) = with(preferences.edit()) {
         when (value) {
             is Long -> putLong(name, value)
             is String -> putString(name, value)

@@ -22,7 +22,7 @@ import toast
 
 class TagFragment : BaseFragment(), HotTagView, BaseQuickAdapter.OnItemChildClickListener {
 
-    private val presenter: HotTagPresenterImpl by lazy {
+    private val presenter: HotTagPresenterImpl by lazy {/**/
         HotTagPresenterImpl(this)
     }
 
