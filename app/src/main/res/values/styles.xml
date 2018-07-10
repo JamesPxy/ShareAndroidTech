@@ -12,6 +12,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!--透明导航栏-->
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
 
@@ -41,6 +43,28 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+
+    <!-- ToolBar样式.-->
+    <style name="toolbar_theme" parent="@style/ThemeOverlay.AppCompat.Light">
+        <!--修改toolbar的Title(大标题)颜色-->
+        <item name="android:textColorPrimary">@android:color/holo_red_dark</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <!--修改toolbar的subtitle(小标题)颜色-->
+        <item name="subtitleTextColor">@android:color/holo_red_dark</item>
+        <!--修改toolbar的图标颜色.-->
+        <item name="colorControlNormal">@android:color/white</item>
+    </style>
+
+    <!-- ToolBar菜单样式  popup_theme.-->
+    <style name="popup_theme" parent="@style/ThemeOverlay.AppCompat.Light">
+        <!--设置背景-->
+        <item name="android:background">@android:color/white</item>
+        <!--设置字体颜色-->
+        <item name="android:textColor">@android:color/holo_red_dark</item>
+        <!--设置不覆盖锚点-->
+        <item name="overlapAnchor">false</item>
     </style>
 
 

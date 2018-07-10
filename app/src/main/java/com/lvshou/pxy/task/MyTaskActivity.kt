@@ -4,6 +4,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.view.View
 import com.lvshou.pxy.R
+import com.lvshou.pxy.R.id.tvResult
 import com.lvshou.pxy.base.BaseActivity
 import com.lvshou.pxy.constant.Constant
 import com.lvshou.pxy.utils.PreferenceUtils
@@ -58,8 +59,8 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
             toast("请先选择定时任务执行时间")
             return
         }
-        val interval = 15 * 1000L//3分钟执行一次
-//        val interval = 3 * 60 * 1000//3分钟执行一次
+//        val interval = 15 * 1000L//3分钟执行一次
+        val interval = 5 * 60 * 1000L//3分钟执行一次
         val delay = getDelayTime(selectMonth, selectDay)
         toast("定时任务开启成功，将于$selectMonth:$selectDay 开始执行，间隔时间：$interval ms")
         timer.schedule(task, delay, interval)
@@ -104,6 +105,17 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
+    fun killProcess(pkgName: String) {
+        try {
+            val am = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+            val method = Class.forName("android.app.ActivityManager").getMethod("forceStopPackage", String::class.java)
+            method.invoke(am, pkgName)
+        } catch (e: Exception) {
+//            java.lang.reflect.InvocationTargetException
+            e.printStackTrace()
+        }
+    }
+
 
     override fun onClick(v: View) {
         when (v.id) {
@@ -114,7 +126,6 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
                 timer.cancel()
                 toast("定时任务已取消执行")
                 tvResult.text = "定时任务已取消执行"
-
                 stopApp(this@MyTaskActivity, "com.alibaba.android.rimet")
             }
         }
@@ -124,7 +135,7 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
 
         val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 //        val executeTime = "17:44:00"
-        val executeTime = "08:37:00"
+        val executeTime = "08:43:00"
         var endDate = if (month < 10) {
             if (day < 10) {
                 df.parse("2018-0$month-0$day $executeTime")

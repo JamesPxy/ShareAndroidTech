@@ -9,6 +9,7 @@ import com.lvshou.pxy.MyPagerAdapter
 import com.lvshou.pxy.R
 import com.lvshou.pxy.TestKotlinFragment
 import com.lvshou.pxy.ui.fragment.HomeFragment
+import com.lvshou.pxy.ui.fragment.MineFragment
 import com.lvshou.pxy.ui.fragment.TagFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         var myPagerAdapter = MyPagerAdapter(supportFragmentManager)
-        val fragmentList = listOf(HomeFragment(), TagFragment(), TestKotlinFragment())
+        val fragmentList = listOf(HomeFragment(), TagFragment(), MineFragment())
         myPagerAdapter.setData(fragmentList)
 
         viewPager.apply {

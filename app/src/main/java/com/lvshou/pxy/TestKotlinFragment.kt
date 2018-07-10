@@ -9,14 +9,14 @@ import android.view.ViewGroup
 
 
 /**
- * A fragment with a Google +1 button.
+ * A fragment test kotlin
  */
 class TestKotlinFragment : Fragment(){
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_plus_one, container, false)
+        return inflater.inflate(R.layout.fragment_test_kotlin, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

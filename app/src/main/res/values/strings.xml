@@ -2,7 +2,7 @@
     <string name="app_name">HappyAndroid</string>
     <string name="title_home">首页</string>
     <string name="title_dashboard">热搜</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_notifications">我的</string>
 
     <string name="share">分享</string>
     <string name="collect">收藏</string>
