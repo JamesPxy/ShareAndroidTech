@@ -20,11 +20,15 @@ class MineActivity : BaseActivity(), View.OnClickListener {
         toolbar.setNavigationOnClickListener {
             toast("back")
         }
-        toolbar.apply {
-            titleMarginStart = 0
-            setTitleTextColor(Color.WHITE)
-            subtitle = "come on"
-        }
+//        toolbar.apply {
+//            titleMarginStart = 0
+//            setTitleTextColor(Color.RED)
+//            title="apply"
+//            subtitle = "come on"
+//        }
+        toolbar.titleMarginStart=0
+        toolbar.setTitleTextColor(Color.RED)
+
     }
 
 

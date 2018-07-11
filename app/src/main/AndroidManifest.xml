@@ -2,10 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lvshou.pxy">
 
-    <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -52,11 +49,11 @@
             android:label="登录/注册"
             android:supportsPictureInPicture="false">
 
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
 
         </activity>
         <activity
@@ -72,12 +69,11 @@
             android:name=".task.MyTaskActivity"
             android:label="定时任务"
             android:theme="@style/AppTheme.NoActionBar">
-
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
 
         <!-- android:process=":remote" -->
@@ -96,11 +92,11 @@
         <activity
             android:name=".ui.activity.MineActivity"
             android:theme="@style/MineCenterTheme">
-            <!-- <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />
+            <!--  <intent-filter>
+                   <action android:name="android.intent.action.MAIN" />
 
-                 <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>-->
+                   <category android:name="android.intent.category.LAUNCHER" />
+               </intent-filter>-->
         </activity>
     </application>
 
