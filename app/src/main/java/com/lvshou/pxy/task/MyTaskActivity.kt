@@ -23,6 +23,10 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
     private var selectMonth = 0
     private var selectDay = 0
     private var taskFlag = true
+    //    private val executeTime = "14:23:00"
+    //    private val interval = 10 * 1000L
+    private val executeTime = "08:48:00"
+    private val interval = 3 * 60 * 1000L//3分钟执行一次
 
     private val task = object : TimerTask() {
         override fun run() {
@@ -59,12 +63,10 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
             toast("请先选择定时任务执行时间")
             return
         }
-//        val interval = 15 * 1000L//3分钟执行一次
-        val interval = 5 * 60 * 1000L//3分钟执行一次
         val delay = getDelayTime(selectMonth, selectDay)
         toast("定时任务开启成功，将于$selectMonth:$selectDay 开始执行，间隔时间：$interval ms")
         timer.schedule(task, delay, interval)
-//        tvResult.text = "定时任务开启成功，将于$selectMonth 月 $selectDay 号，开始执行，间隔时间：$interval ms"
+        tvResult.text = "定时任务开启成功，将于$selectMonth 月 $selectDay 号，开始执行，间隔时间：$interval ms  delaytime:$delay"
     }
 
     /*
@@ -134,8 +136,6 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
     private fun getDelayTime(month: Int, day: Int): Long {
 
         val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-//        val executeTime = "17:44:00"
-        val executeTime = "08:43:00"
         var endDate = if (month < 10) {
             if (day < 10) {
                 df.parse("2018-0$month-0$day $executeTime")
@@ -157,7 +157,6 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
         //得到毫秒 不用转换
         val delayTime = endDate.time - date.time
         loge(TAG, "delay time is $delayTime")
-        tvResult.text = "delay time is $delayTime"
         return delayTime
     }
 
