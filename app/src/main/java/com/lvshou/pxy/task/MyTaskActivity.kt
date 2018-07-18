@@ -22,8 +22,7 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
     private val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
     private var count = 0
     private var readCount: String by PreferenceUtils(Constant.START_APP_COUNT, "暂无记录，没有数据")
-    private var taskFlag = true
-    private val interval = 3 * 60 * 1000L//3分钟执行一次
+    private val interval = 4 * 60 * 1000L//4分钟执行一次
 
     private var selectCalendar = Calendar.getInstance()
 
@@ -45,13 +44,14 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
         timePicker.setOnTimeChangedListener { view, hourOfDay, minute ->
             selectHour = hourOfDay
             selectMinute = minute
-            tvTime.text = "current select time is $hourOfDay $minute"
+            tvTime.text = "current select time is: $hourOfDay:$minute"
         }
 
         datePicker.setOnDateChangedListener { view, year, monthOfYear, dayOfMonth ->
             // 获取一个日历对象，并初始化为当前选中的时间
             selectCalendar.set(year, monthOfYear, dayOfMonth, selectHour, selectMinute)
             toast(simpleDateFormat.format(selectCalendar.time))
+            tvTime.text = "The execute time is: ${simpleDateFormat.format(selectCalendar.time)}"
         }
 
         btnLock.setOnClickListener {
@@ -59,7 +59,11 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
             datePicker.isEnabled = false
             btnStartTask.isEnabled = false
             btnCancelTask.isEnabled = false
-            toast("锁定成功")
+            rootView.visibility = View.INVISIBLE
+//            btnStartTask.visibility = View.GONE
+//            tvTime.visibility = View.INVISIBLE
+//            tvResult.visibility = View.INVISIBLE
+            toast("锁定成功:${simpleDateFormat.format(selectCalendar.time)}")
         }
 
     }
@@ -76,14 +80,8 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
         }
         val task = object : TimerTask() {
             override fun run() {
-                if (taskFlag) {
-                    startAPP(this@MyTaskActivity, "com.alibaba.android.rimet")
-                    loge(TAG, "run: start app count=$count")
-                } else {
-                    stopApp(this@MyTaskActivity, "com.alibaba.android.rimet")
-                    loge(TAG, "run: stop app count=$count")
-                }
-                taskFlag = !taskFlag
+                startAPP(this@MyTaskActivity, "com.alibaba.android.rimet")
+                loge(TAG, "run: start app count=$count")
             }
         }
 //        timer.purge()
@@ -160,23 +158,23 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
 
     private fun getDelayTime(month: Int, day: Int): Long {
 
-       /* val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        var endDate = if (month < 10) {
-            if (day < 10) {
-                df.parse("2018-0$month-0$day $executeTime")
-            } else {
-                df.parse("2018-0$month-$day $executeTime")
-            }
+        /* val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+         var endDate = if (month < 10) {
+             if (day < 10) {
+                 df.parse("2018-0$month-0$day $executeTime")
+             } else {
+                 df.parse("2018-0$month-$day $executeTime")
+             }
 
-        } else {
-            if (day < 10) {
-                df.parse("2018-$month-0$day $executeTime")
-            } else {
-                df.parse("2018-$month-$day $executeTime")
-            }
-        }
-        loge(TAG, "原始时间：2018-0$month-$day $executeTime")
-        loge(TAG, "格式化执行时间：${df.format(endDate)}")*/
+         } else {
+             if (day < 10) {
+                 df.parse("2018-$month-0$day $executeTime")
+             } else {
+                 df.parse("2018-$month-$day $executeTime")
+             }
+         }
+         loge(TAG, "原始时间：2018-0$month-$day $executeTime")
+         loge(TAG, "格式化执行时间：${df.format(endDate)}")*/
         var endDate = selectCalendar.time
         //得到当前日期
         val date = Date()
