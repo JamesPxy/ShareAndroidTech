@@ -6,10 +6,10 @@
     <TextView
         android:id="@+id/tvGoCenter"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_marginTop="100dp"
         android:gravity="center"
+        android:layout_height="match_parent"
+        android:textSize="22sp"
+        android:padding="30dp"
         android:text="JamesPxy  to  personal center" />
 
 </android.support.constraint.ConstraintLayout>

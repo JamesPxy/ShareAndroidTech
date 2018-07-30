@@ -107,7 +107,6 @@ android {
 
 }
 
-
 //读取签名配置文件
 def getSigningProperties() {
 
@@ -154,8 +153,6 @@ def getVersionCode() {
 def getCurrentTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }
-
-
 
 
 dependencies {
