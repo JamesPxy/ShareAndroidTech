@@ -3,6 +3,7 @@ package com.lvshou.pxy
 import android.app.Application
 import android.content.ComponentCallbacks2
 import com.bumptech.glide.Glide
+import com.lvshou.pxy.constant.Constant
 import com.lvshou.pxy.utils.CrashCatcher
 import com.lvshou.pxy.utils.PreferenceUtils
 import com.squareup.leakcanary.LeakCanary
@@ -23,10 +24,12 @@ class MyApplication : Application() {
         PreferenceUtils.setContext(applicationContext)
 
         //用不crash
-        CrashCatcher.install { _, throwable ->
-            var error=throwable.stackTrace
-            loge("application",error.contentToString())
-            loge("application crash",throwable.localizedMessage)
+        if (!BuildConfig.DEBUG) {
+            CrashCatcher.install { _, throwable ->
+                var error = throwable.stackTrace
+                loge("application", error.contentToString())
+                loge("application crash", throwable.localizedMessage)
+            }
         }
 
     }

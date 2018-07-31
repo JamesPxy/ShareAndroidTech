@@ -2,71 +2,95 @@ package com.lvshou.pxy.task
 
 import android.app.ActivityManager
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.support.annotation.RequiresApi
 import android.view.View
 import com.lvshou.pxy.R
-import com.lvshou.pxy.R.id.tvResult
 import com.lvshou.pxy.base.BaseActivity
 import com.lvshou.pxy.constant.Constant
 import com.lvshou.pxy.utils.PreferenceUtils
 import kotlinx.android.synthetic.main.content_my_task.*
 import loge
 import toast
-import java.util.*
 import java.text.SimpleDateFormat
+import java.util.*
 
 
 class MyTaskActivity : BaseActivity(), View.OnClickListener {
 
     private var TAG = "james"
+    private val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
     private var count = 0
     private var readCount: String by PreferenceUtils(Constant.START_APP_COUNT, "暂无记录，没有数据")
-    private var selectMonth = 0
-    private var selectDay = 0
-    private var taskFlag = true
-    //    private val executeTime = "14:23:00"
-    //    private val interval = 10 * 1000L
-    private val executeTime = "08:48:00"
-    private val interval = 3 * 60 * 1000L//3分钟执行一次
+    private val interval = 2 * 60 * 1000L//2分钟执行一次
 
-    private val task = object : TimerTask() {
-        override fun run() {
-            if (taskFlag) {
-                startAPP(this@MyTaskActivity, "com.alibaba.android.rimet")
-                loge(TAG, "run: start app count=$count")
-            } else {
-                stopApp(this@MyTaskActivity, "com.alibaba.android.rimet")
-                loge(TAG, "run: stop app count=$count")
-            }
-            taskFlag = !taskFlag
-        }
-    }
-    private val timer = Timer(true)
+    private var selectCalendar = Calendar.getInstance()
+
+    private var timer: Timer? = null
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun init() {
         btnStartTask.setOnClickListener(this)
         btnCancelTask.setOnClickListener(this)
+        btnLock.setOnClickListener(this)
         loge(TAG, readCount)
         tvResult.text = readCount
 
-        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            //月份要加1才等于正常的月份 从0开始计数
-            selectMonth = month + 1
-            selectDay = dayOfMonth
-            tvResult.text = "已选择时间 $year $selectMonth $selectDay "
-//            tvResult.text = "已选择时间 $selectDateStr "
+        var selectHour = 8
+        var selectMinute = 52
+        timePicker.setIs24HourView(true)
+        timePicker.hour = selectHour
+        timePicker.minute = selectMinute
+        timePicker.setOnTimeChangedListener { view, hourOfDay, minute ->
+            selectHour = hourOfDay
+            selectMinute = minute
+            tvTime.text = "current select time is: $hourOfDay:$minute"
         }
+
+        datePicker.setOnDateChangedListener { view, year, monthOfYear, dayOfMonth ->
+            // 获取一个日历对象，并初始化为当前选中的时间
+            selectCalendar.set(year, monthOfYear, dayOfMonth, selectHour, selectMinute)
+            toast(simpleDateFormat.format(selectCalendar.time))
+            tvTime.text = "The execute time is: ${simpleDateFormat.format(selectCalendar.time)}"
+        }
+
     }
 
+
     private fun startTimerTask() {
-        if (0 == selectMonth || 0 == selectDay) {
-            toast("请先选择定时任务执行时间")
+        //得到毫秒 不用转换
+//        var date = Date()
+//        var startDate=selectCalendar.time
+        val delay = selectCalendar.time.time - Date().time
+        if (delay < 0) {
+            toast("!!!!请先选择正确的定时任务执行时间!!!!")
             return
         }
-        val delay = getDelayTime(selectMonth, selectDay)
-        toast("定时任务开启成功，将于$selectMonth:$selectDay 开始执行，间隔时间：$interval ms")
-        timer.schedule(task, delay, interval)
-        tvResult.text = "定时任务开启成功，将于$selectMonth 月 $selectDay 号，开始执行，间隔时间：$interval ms  delaytime:$delay"
+        val task = object : TimerTask() {
+            override fun run() {
+                loge(TAG, "run: start app count=$count")
+                when {
+                    count < 2 -> startAPP(this@MyTaskActivity, "com.alibaba.android.rimet")
+                    count < 4 -> {
+                        startBrowser()
+                        loge(TAG, "startBrowser:$count")
+                    }
+                    else -> {
+                        loge(TAG, "task has canceled $count")
+                        this.cancel()
+                    }
+                }
+                count++
+            }
+        }
+        timer = Timer(true)
+        timer?.schedule(task, delay, interval)
+
+        toast("--The task  has start，将于${simpleDateFormat.format(selectCalendar.time)}开始执行")
+        tvResult.text = "The task  has start，interval is：$interval ms, delayTime is:$delay"
     }
 
     /*
@@ -76,7 +100,6 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
         try {
             val intent = context.packageManager.getLaunchIntentForPackage(appPackageName)
             context.startActivity(intent)
-            count++
             PreferenceUtils(Constant.START_APP_COUNT, "执行次数：$count")
                     .putPreference(Constant.START_APP_COUNT, "执行次数：$count")
         } catch (e: Exception) {
@@ -118,48 +141,43 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
+    /**
+     * 执行锁定操作
+     */
+    private fun doLockJob() {
+        timePicker.isEnabled = false
+        datePicker.isEnabled = false
+        btnStartTask.isEnabled = false
+        btnCancelTask.isEnabled = false
+        rootView.visibility = View.INVISIBLE
+        toast("锁定成功:${simpleDateFormat.format(selectCalendar.time)}")
+    }
+
+    private fun startBrowser() {
+        val uri = Uri.parse("http://prototype.sys.hxsapp.net:8088/V3.4.0")
+//        val uri = Uri.parse("https://www.baidu.com")
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        startActivity(intent)
+    }
+
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btnStartTask ->
                 startTimerTask()
+//                startAPP(this@MyTaskActivity, "com.alibaba.android.rimet")
             R.id.btnCancelTask -> {
 //                android.os.Process.killProcess(android.os.Process.myPid())
-                timer.cancel()
-                toast("定时任务已取消执行")
-                tvResult.text = "定时任务已取消执行"
+                timer?.cancel()
+                tvResult.text = "任务已取消执行"
                 stopApp(this@MyTaskActivity, "com.alibaba.android.rimet")
             }
-        }
-    }
-
-    private fun getDelayTime(month: Int, day: Int): Long {
-
-        val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        var endDate = if (month < 10) {
-            if (day < 10) {
-                df.parse("2018-0$month-0$day $executeTime")
-            } else {
-                df.parse("2018-0$month-$day $executeTime")
-            }
-
-        } else {
-            if (day < 10) {
-                df.parse("2018-$month-0$day $executeTime")
-            } else {
-                df.parse("2018-$month-$day $executeTime")
+            R.id.btnLock -> {
+                doLockJob()
+//                startBrowser()
             }
         }
-        loge(TAG, "原始时间：2018-0$month-$day $executeTime")
-        loge(TAG, "格式化执行时间：${df.format(endDate)}")
-        //得到当前日期
-        val date = Date()
-        //得到毫秒 不用转换
-        val delayTime = endDate.time - date.time
-        loge(TAG, "delay time is $delayTime")
-        return delayTime
     }
-
 
     override fun setLayoutId(): Int = R.layout.activity_my_task
 
