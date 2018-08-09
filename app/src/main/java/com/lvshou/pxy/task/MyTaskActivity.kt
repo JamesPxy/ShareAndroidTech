@@ -24,7 +24,8 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
     private val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
     private var count = 0
     private var readCount: String by PreferenceUtils(Constant.START_APP_COUNT, "暂无记录，没有数据")
-    private val interval = 2 * 60 * 1000L//2分钟执行一次
+    //    private val interval = 10 * 1000L//2分钟执行一次
+    private val interval = 20 * 1000L//20s执行一次
 
     private var selectCalendar = Calendar.getInstance()
 
@@ -74,7 +75,21 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
                 loge(TAG, "run: start app count=$count")
                 when {
                     count < 2 -> startAPP(this@MyTaskActivity, "com.alibaba.android.rimet")
+                    count < 3 -> {
+                        backToHome()
+                        loge(TAG, "backToHome:$count")
+                    }
                     count < 4 -> {
+                        killProcess("com.alibaba.android.rimet")
+                        loge(TAG, "killProcess $count")
+                    }
+                    count < 6 -> {
+                        startAPP(this@MyTaskActivity, "com.alibaba.android.rimet")
+                        loge(TAG, "startAPP $count")
+                    }
+                    count < 8 -> {
+                        backToHome()
+                        killProcess("com.alibaba.android.rimet")
                         startBrowser()
                         loge(TAG, "startBrowser:$count")
                     }
@@ -124,7 +139,6 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
             if (pkgName == packageName) {
 //                 mActivityManager.forceStopPackage(packageName)
                 mActivityManager.killBackgroundProcesses(packageName)
-
                 loge(TAG, "has killed")
             }
         }
@@ -160,6 +174,13 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
         startActivity(intent)
     }
 
+    private fun backToHome() {
+        val intent = Intent(Intent.ACTION_MAIN)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.addCategory(Intent.CATEGORY_HOME)
+        startActivity(intent)
+    }
+
 
     override fun onClick(v: View) {
         when (v.id) {
@@ -174,6 +195,7 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
             }
             R.id.btnLock -> {
                 doLockJob()
+//                backToHome()
 //                startBrowser()
             }
         }
