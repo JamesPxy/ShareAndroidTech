@@ -1,15 +1,23 @@
 package com.lvshou.pxy.ui.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import com.lvshou.pxy.R
 import com.lvshou.pxy.base.BaseActivity
+import com.lvshou.pxy.task.MyTaskActivity
 import kotlinx.android.synthetic.main.activity_mine.*
 import toast
 
 class MineActivity : BaseActivity(), View.OnClickListener {
-    override fun onClick(v: View?) {
+    override fun onClick(view: View?) {
+        when (view?.id) {
+            R.id.tvContent -> {
+                startActivity(Intent(this@MineActivity, MyTaskActivity::class.java))
+                finish()
+            }
+        }
     }
 
     @SuppressLint("RestrictedApi")
@@ -26,9 +34,9 @@ class MineActivity : BaseActivity(), View.OnClickListener {
 //            title="apply"
 //            subtitle = "come on"
 //        }
-        toolbar.titleMarginStart=0
+        toolbar.titleMarginStart = 0
         toolbar.setTitleTextColor(Color.RED)
-
+        tvContent.setOnClickListener(this)
     }
 
 

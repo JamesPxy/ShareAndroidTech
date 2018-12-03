@@ -24,8 +24,21 @@
         <item name="android:windowTranslucentStatus">true</item>
         <!--Navigation栏透明-->
         <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="MyTaskTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--状态栏透明-->
+        <item name="android:windowTranslucentStatus">true</item>
+        <!--全屏-->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="FullScreenTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

@@ -3,10 +3,8 @@ package com.lvshou.pxy
 import android.app.Application
 import android.content.ComponentCallbacks2
 import com.bumptech.glide.Glide
-import com.lvshou.pxy.constant.Constant
 import com.lvshou.pxy.utils.CrashCatcher
 import com.lvshou.pxy.utils.PreferenceUtils
-import com.squareup.leakcanary.LeakCanary
 import loge
 
 /**
@@ -17,9 +15,9 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        if (BuildConfig.DEBUG) {
-            LeakCanary.install(this)
-        }
+//        if (BuildConfig.DEBUG) {
+//            LeakCanary.install(this)
+//        }
         //初始化 PreferenceUtils
         PreferenceUtils.setContext(applicationContext)
 

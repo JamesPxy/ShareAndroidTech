@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.support.annotation.RequiresApi
 import android.view.View
+import android.view.WindowManager
 import com.lvshou.pxy.R
 import com.lvshou.pxy.base.BaseActivity
 import com.lvshou.pxy.constant.Constant
@@ -20,19 +20,17 @@ import java.util.*
 
 class MyTaskActivity : BaseActivity(), View.OnClickListener {
 
-    private var TAG = "james"
+    private var TAG = "James"
     private val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
     private var count = 0
     private var readCount: String by PreferenceUtils(Constant.START_APP_COUNT, "暂无记录，没有数据")
-    //    private val interval = 10 * 1000L//2分钟执行一次
+    //private val interval = 10 * 1000L//2分钟执行一次
     private val interval = 20 * 1000L//20s执行一次
-
     private var selectCalendar = Calendar.getInstance()
-
     private var timer: Timer? = null
 
+    override fun setLayoutId(): Int = R.layout.activity_my_task
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun init() {
         btnStartTask.setOnClickListener(this)
         btnCancelTask.setOnClickListener(this)
@@ -43,21 +41,39 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
         var selectHour = 8
         var selectMinute = 52
         timePicker.setIs24HourView(true)
-        timePicker.hour = selectHour
-        timePicker.minute = selectMinute
-        timePicker.setOnTimeChangedListener { view, hourOfDay, minute ->
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            timePicker.hour = selectHour
+            timePicker.minute = selectMinute
+        } else {
+            timePicker.currentHour = selectHour
+            timePicker.currentMinute = selectMinute
+        }
+        timePicker.setOnTimeChangedListener { _, hourOfDay, minute ->
             selectHour = hourOfDay
             selectMinute = minute
             tvTime.text = "current select time is: $hourOfDay:$minute"
         }
 
-        datePicker.setOnDateChangedListener { view, year, monthOfYear, dayOfMonth ->
+        /*   datePicker.setOnDateChangedListener { view, year, monthOfYear, dayOfMonth ->
+               // 获取一个日历对象，并初始化为当前选中的时间
+               selectCalendar.set(year, monthOfYear, dayOfMonth, selectHour, selectMinute)
+               toast(simpleDateFormat.format(selectCalendar.time))
+               tvTime.text = "The execute time is: ${simpleDateFormat.format(selectCalendar.time)}"
+           }*/
+
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = System.currentTimeMillis()
+        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)) { datePicker, year, month, dayOfMonth ->
+            loge(TAG, "Year=" + year + " Month=" + (month + 1) + " day=" + dayOfMonth)
             // 获取一个日历对象，并初始化为当前选中的时间
-            selectCalendar.set(year, monthOfYear, dayOfMonth, selectHour, selectMinute)
+            selectCalendar.set(year, month, dayOfMonth, selectHour, selectMinute)
             toast(simpleDateFormat.format(selectCalendar.time))
             tvTime.text = "The execute time is: ${simpleDateFormat.format(selectCalendar.time)}"
         }
+    }
 
+    override fun initImmersionBar() {
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
     }
 
 
@@ -67,7 +83,7 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
 //        var startDate=selectCalendar.time
         val delay = selectCalendar.time.time - Date().time
         if (delay < 0) {
-            toast("!!!!请先选择正确的定时任务执行时间!!!!")
+            toast("请先选择日期和具体时间!!!!")
             return
         }
         val task = object : TimerTask() {
@@ -122,39 +138,6 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    //    https://blog.csdn.net/lyjIT/article/details/52137186
-    fun stopApp(context: Context, packageName: String) {
-        loge(TAG, "start killed")
-        val mActivityManager = context
-                .getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        // 通过调用ActivityManager的getRunningAppServicees()方法获得系统里所有正在运行的进程
-        val runServiceList = mActivityManager
-                .getRunningServices(50)
-        println(runServiceList.size)
-        // ServiceInfo Model类 用来保存所有进程信息
-        for (runServiceInfo in runServiceList) {
-            val serviceCMP = runServiceInfo.service
-            val serviceName = serviceCMP.shortClassName // service 的类名
-            val pkgName = serviceCMP.packageName // 包名
-            if (pkgName == packageName) {
-//                 mActivityManager.forceStopPackage(packageName)
-                mActivityManager.killBackgroundProcesses(packageName)
-                loge(TAG, "has killed")
-            }
-        }
-    }
-
-    fun killProcess(pkgName: String) {
-        try {
-            val am = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-            val method = Class.forName("android.app.ActivityManager").getMethod("forceStopPackage", String::class.java)
-            method.invoke(am, pkgName)
-        } catch (e: Exception) {
-//            java.lang.reflect.InvocationTargetException
-            e.printStackTrace()
-        }
-    }
-
     /**
      * 执行锁定操作
      */
@@ -191,7 +174,7 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
 //                android.os.Process.killProcess(android.os.Process.myPid())
                 timer?.cancel()
                 tvResult.text = "任务已取消执行"
-                stopApp(this@MyTaskActivity, "com.alibaba.android.rimet")
+                killAPP(this@MyTaskActivity, "com.alibaba.android.rimet")
             }
             R.id.btnLock -> {
                 doLockJob()
@@ -201,8 +184,40 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    override fun setLayoutId(): Int = R.layout.activity_my_task
-
     override fun cancelRequest() {
+    }
+
+    //https://blog.csdn.net/lyjIT/article/details/52137186
+    @Suppress("DEPRECATION")
+    private fun killAPP(context: Context, packageName: String) {
+        loge(TAG, "start killed")
+        val mActivityManager = context
+                .getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        // 通过调用ActivityManager的getRunningAppServicees()方法获得系统里所有正在运行的进程
+        val runServiceList = mActivityManager
+                .getRunningServices(50)
+        println(runServiceList.size)
+        // ServiceInfo Model类 用来保存所有进程信息
+        for (runServiceInfo in runServiceList) {
+            val serviceCMP = runServiceInfo.service
+            val serviceName = serviceCMP.shortClassName // service 的类名
+            val pkgName = serviceCMP.packageName // 包名
+            if (pkgName == packageName) {
+//                 mActivityManager.forceStopPackage(packageName)
+                mActivityManager.killBackgroundProcesses(packageName)
+                loge(TAG, "has killed")
+            }
+        }
+    }
+
+    fun killProcess(pkgName: String) {
+        try {
+            val am = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+            val method = Class.forName("android.app.ActivityManager").getMethod("forceStopPackage", String::class.java)
+            method.invoke(am, pkgName)
+        } catch (e: Exception) {
+//          java.lang.reflect.InvocationTargetException
+            e.printStackTrace()
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.lvshou.pxy.ui.activity
 
+import android.annotation.SuppressLint
 import android.os.SystemClock
 import android.util.Log
 import com.lvshou.pxy.R
@@ -28,6 +29,7 @@ class TestZip : BaseActivity() {
 
     private var result = ""
 
+    @SuppressLint("CheckResult")
     override fun init() {
 //        observable1=RetrofitHelper.retrofitService.getData1(0)
 //        observable2=RetrofitHelper.retrofitService.getData2()
@@ -85,13 +87,13 @@ class TestZip : BaseActivity() {
         Observable.zip(observable1, observable2, BiFunction<String, String, String> { t1, t2 ->
             t1 + t2
         }).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(Consumer<String>({
+                .subscribe(Consumer<String> {
                     loge("test  consumer=", it)
                     textView.text = textView.text.toString() + it
-                }), Consumer<Throwable>({
+                }, Consumer<Throwable> {
                     loge("test  Throwable=", it.localizedMessage)
                     textView.text = it.localizedMessage
-                }))
+                })
 
 
 //        Observable.zip(observable1, observable2, BiFunction<Int, String, String> {

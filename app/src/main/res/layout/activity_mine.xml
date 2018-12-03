@@ -35,12 +35,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:minHeight="60dp"
-                app:titleMargin="1dp"
-                app:contentInsetStartWithNavigation="2dp"
-                app:titleTextColor="@color/black"
                 android:theme="@style/toolbar_theme"
+                app:contentInsetStartWithNavigation="2dp"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/popup_theme" />
+                app:popupTheme="@style/popup_theme"
+                app:titleMargin="1dp"
+                app:titleTextColor="@color/black" />
             <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:layout_scrollFlags="scroll|enterAlways"-->
@@ -61,10 +61,11 @@
     </android.support.design.widget.AppBarLayout>
 
     <TextView
+        android:id="@+id/tvContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="320dp"
         android:gravity="center"
-        android:text="66666" />
+        android:text="@string/content_libai" />
 
 </android.support.design.widget.CoordinatorLayout>
