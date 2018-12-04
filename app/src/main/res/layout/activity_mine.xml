@@ -60,7 +60,16 @@
  -->
     </android.support.design.widget.AppBarLayout>
 
+    <com.lvshou.pxy.ui.view.TextPathView
+        android:id="@+id/textPathView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="320dp"
+        android:gravity="center"
+        />
+
     <TextView
+        android:visibility="gone"
         android:id="@+id/tvContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

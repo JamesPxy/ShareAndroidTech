@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import com.lvshou.pxy.R
 import com.lvshou.pxy.base.BaseFragment
 import com.lvshou.pxy.ui.activity.MineActivity
-import com.lvshou.pxy.ui.activity.TestScrollViewActivity
 import kotlinx.android.synthetic.main.fragment_mine.*
 
 class MineFragment : BaseFragment() {

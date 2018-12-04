@@ -8,7 +8,9 @@ import com.lvshou.pxy.R
 import com.lvshou.pxy.base.BaseActivity
 import com.lvshou.pxy.task.MyTaskActivity
 import kotlinx.android.synthetic.main.activity_mine.*
+import kotlinx.android.synthetic.main.fragment_mine.*
 import toast
+import java.util.*
 
 class MineActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
@@ -37,6 +39,18 @@ class MineActivity : BaseActivity(), View.OnClickListener {
         toolbar.titleMarginStart = 0
         toolbar.setTitleTextColor(Color.RED)
         tvContent.setOnClickListener(this)
+
+        textPathView1.setText("很划算的几乎将户籍卡hi回馈于胡gagjdasg赶回家卡嘎四大金刚的沮丧激活工具感觉很·")
+
+        var progress=0f
+        Timer()?.schedule(object : TimerTask() {
+            override fun run() {
+                runOnUiThread {
+                    progress++
+                    textPathView1.progress=progress
+                }
+            }
+        }, 2000, 1000)
     }
 
 
