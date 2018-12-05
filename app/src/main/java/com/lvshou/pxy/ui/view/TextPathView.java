@@ -9,11 +9,13 @@ import android.graphics.PathMeasure;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
+import android.util.Log;
 
 /**
  * @desc： Created by JamesPxy on 2018/12/4 17:50
  */
 public class TextPathView extends AppCompatTextView {
+    private static final String TAG = "pxy";
     /**
      * 最终绘制目标的路径
      */
@@ -98,15 +100,6 @@ public class TextPathView extends AppCompatTextView {
         initPath(getText().toString());
     }
 
-    public float getProgress() {
-        return mProgress;
-    }
-
-    public void setProgress(float progress) {
-        mProgress = progress;
-        postInvalidate();
-    }
-
     /**
      * 设置字符串(内部会进行动画的准备工作)
      *
@@ -119,6 +112,7 @@ public class TextPathView extends AppCompatTextView {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        Log.e(TAG, "onDraw: progress=" + mProgress);
         //1. 结束的长度
         float stopDistance = mLengthSum * mProgress;
         //2. 配置好pathmeasure
@@ -147,4 +141,10 @@ public class TextPathView extends AppCompatTextView {
         objectAnimator.setDuration(mDuration);
         objectAnimator.start();
     }
+
+    private void setProgress(float progress) {
+        mProgress = progress;
+        postInvalidate();
+    }
+
 }

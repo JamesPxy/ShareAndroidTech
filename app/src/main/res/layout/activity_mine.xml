@@ -56,25 +56,33 @@
              app:tabIndicatorColor="@color/colorAccent"
              app:tabIndicatorHeight="4dp"
              app:tabSelectedTextColor="#000"
-             app:tabTextColor="#fff" />
- -->
+             app:tabTextColor="#fff" />-->
+
     </android.support.design.widget.AppBarLayout>
 
-    <com.lvshou.pxy.ui.view.TextPathView
-        android:id="@+id/textPathView1"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="320dp"
-        android:gravity="center"
-        />
+        android:layout_marginTop="320dp">
 
-    <TextView
-        android:visibility="gone"
-        android:id="@+id/tvContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="320dp"
-        android:gravity="center"
-        android:text="@string/content_libai" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.lvshou.pxy.ui.view.TextPathView
+                android:id="@+id/textPathView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tvContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/content_libai" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -19,6 +19,7 @@ class MineActivity : BaseActivity(), View.OnClickListener {
                 startActivity(Intent(this@MineActivity, MyTaskActivity::class.java))
                 finish()
             }
+
         }
     }
 
@@ -42,7 +43,8 @@ class MineActivity : BaseActivity(), View.OnClickListener {
 
         textPathView1.setText("很划算的几乎将户籍卡hi回馈于胡gagjdasg赶回家卡嘎四大金刚的沮丧激活工具感觉很·")
 
-        var progress=0f
+        textPathView1.startAnim()
+       /* var progress=0f
         Timer()?.schedule(object : TimerTask() {
             override fun run() {
                 runOnUiThread {
@@ -50,7 +52,7 @@ class MineActivity : BaseActivity(), View.OnClickListener {
                     textPathView1.progress=progress
                 }
             }
-        }, 2000, 1000)
+        }, 2000, 1000)*/
     }
 
 
