@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.test.TestLikeViewActivity">
+
+
+    <com.lvshou.pxy.ui.view.JiKeLikeView
+        android:id="@+id/jikeone"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"
+        app:like_number="999"/>
+    <com.lvshou.pxy.ui.view.JiKeLikeView
+        android:id="@+id/jiketwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/jikeone"
+        android:layout_marginTop="10dp"
+        app:like_number="1000"/>
+    <com.lvshou.pxy.ui.view.JiKeLikeView
+        android:id="@+id/jikethree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/jiketwo"
+        android:layout_marginTop="10dp"
+        app:like_number="104"/>
+    <com.lvshou.pxy.ui.view.JiKeLikeView
+        android:id="@+id/jikefour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/jikethree"
+        android:layout_marginTop="10dp"
+        app:like_number="34"/>
+    <com.lvshou.pxy.ui.view.JiKeLikeView
+        android:id="@+id/jikefive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/jikefour"
+        android:layout_marginTop="10dp"
+        app:like_number="4309"/>
+
+</android.support.constraint.ConstraintLayout>

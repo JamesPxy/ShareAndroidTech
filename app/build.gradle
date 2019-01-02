@@ -192,8 +192,12 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
-    //调试数据库工具
+    //调试数据库工具  https://github.com/amitshekhariitbhu/Android-Debug-Database
 //    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
+
+    //一款功能齐全的客户端（iOS、Android）研发助手，你值得拥有。  https://github.com/didi/DoraemonKit.git
+    //    只在Debug环境中进行集成，不要带到线上。有一些hook操作会污染线上代码
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.0.1'
 
 }
 kotlin {

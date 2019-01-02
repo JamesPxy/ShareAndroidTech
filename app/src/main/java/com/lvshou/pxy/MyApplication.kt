@@ -3,9 +3,12 @@ package com.lvshou.pxy
 import android.app.Application
 import android.content.ComponentCallbacks2
 import com.bumptech.glide.Glide
+import com.didichuxing.doraemonkit.DoraemonKit
 import com.lvshou.pxy.utils.CrashCatcher
 import com.lvshou.pxy.utils.PreferenceUtils
 import loge
+import com.didichuxing.doraemonkit.kit.IKit
+
 
 /**
  * @desc：
@@ -21,7 +24,7 @@ class MyApplication : Application() {
         //初始化 PreferenceUtils
         PreferenceUtils.setContext(applicationContext)
 
-        //用不crash
+        //永不crash
         if (!BuildConfig.DEBUG) {
             CrashCatcher.install { _, throwable ->
                 var error = throwable.stackTrace
@@ -30,6 +33,7 @@ class MyApplication : Application() {
             }
         }
 
+        DoraemonKit.install(this)
     }
 
     override fun onTrimMemory(level: Int) {
