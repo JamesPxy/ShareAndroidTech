@@ -11,8 +11,11 @@ import android.widget.Toast
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.ChromeClientCallbackManager
 import com.lvshou.pxy.constant.Constant
+import kotlinx.coroutines.experimental.CoroutineScope
+import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.JobCancellationException
+import kotlin.coroutines.experimental.CoroutineContext
 
 /**
  * Log
@@ -131,3 +134,18 @@ inline fun tryCatch(catchBlock: (Throwable) -> Unit = {}, tryBlock: () -> Unit) 
         catchBlock(t)
     }
 }
+
+//Kotlin 协程版的 AutoDispose
+//https://mp.weixin.qq.com/s/7HgjujtgqfuAqEVYGxsl2g
+//rxJava https://github.com/uber/AutoDispose
+/*fun View.onClickAutoDisposable (
+        context: CoroutineContext = Dispatchers.Main,
+       handler: suspend CoroutineScope.(v: android.view.View?) -> Unit
+) {
+    setOnClickListener { v ->
+        GlobalScope.launch(context, CoroutineStart.DEFAULT) {
+                 handler(v)
+            }.asAutoDisposable(v)
+       }
+}*/
+
