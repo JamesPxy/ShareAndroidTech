@@ -28,6 +28,7 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
     private val interval = 20 * 1000L//20s执行一次
     private var selectCalendar = Calendar.getInstance()
     private var timer: Timer? = null
+    private var mPackageName = "com.alibaba.android.rimet"
 
     override fun setLayoutId(): Int = R.layout.activity_my_task
 
@@ -39,7 +40,7 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
         tvResult.text = readCount
 
         var selectHour = 8
-        var selectMinute = 52
+        var selectMinute = 53
         timePicker.setIs24HourView(true)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             timePicker.hour = selectHour
@@ -63,7 +64,7 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
 
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = System.currentTimeMillis()
-        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)) { datePicker, year, month, dayOfMonth ->
+        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) + 1) { datePicker, year, month, dayOfMonth ->
             loge(TAG, "Year=" + year + " Month=" + (month + 1) + " day=" + dayOfMonth)
             // 获取一个日历对象，并初始化为当前选中的时间
             selectCalendar.set(year, month, dayOfMonth, selectHour, selectMinute)
@@ -79,8 +80,6 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
 
     private fun startTimerTask() {
         //得到毫秒 不用转换
-//        var date = Date()
-//        var startDate=selectCalendar.time
         val delay = selectCalendar.time.time - Date().time
         if (delay < 0) {
             toast("请先选择日期和具体时间!!!!")
@@ -90,24 +89,67 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
             override fun run() {
                 loge(TAG, "run: start app count=$count")
                 when {
-                    count < 2 -> startAPP(this@MyTaskActivity, "com.alibaba.android.rimet")
+                    count < 2 -> startAPP(this@MyTaskActivity, mPackageName)
                     count < 3 -> {
+                        startBrowser()
+                        loge(TAG, "startBrowser:$count")
+                    }
+                    count < 4 -> {
                         backToHome()
                         loge(TAG, "backToHome:$count")
                     }
-                    count < 4 -> {
-                        killProcess("com.alibaba.android.rimet")
-                        loge(TAG, "killProcess $count")
+                    /*  count < 4 -> {
+                          killProcess(mPackageName)
+                          loge(TAG, "killProcess $count")
+                      }
+                      count < 6 -> {
+                          startAPP(this@MyTaskActivity, mPackageName)
+                          loge(TAG, "startAPP $count")
+                      }
+                      count < 8 -> {
+                          backToHome()
+                          killProcess(mPackageName)
+                          startBrowser()
+                          loge(TAG, "startBrowser:$count")
+                      }*/
+                    else -> {
+                        loge(TAG, "task has canceled $count")
+                        this.cancel()
+                        //启动结束任务
+                        startFinishTask()
                     }
-                    count < 6 -> {
-                        startAPP(this@MyTaskActivity, "com.alibaba.android.rimet")
-                        loge(TAG, "startAPP $count")
-                    }
-                    count < 8 -> {
-                        backToHome()
-                        killProcess("com.alibaba.android.rimet")
+                }
+                count++
+            }
+        }
+        timer = Timer(true)
+        timer?.schedule(task, delay, interval)
+
+        toast("--The task  has start，将于${simpleDateFormat.format(selectCalendar.time)}开始执行")
+        tvResult.text = "The task  has start，interval is：$interval ms, delayTime is:$delay"
+    }
+
+    private fun startFinishTask() {
+        count = 0
+        selectCalendar.set(Calendar.HOUR_OF_DAY, 18)
+        selectCalendar.set(Calendar.MINUTE, 1)
+        val delay = selectCalendar.time.time - Date().time
+        if (delay < 0) {
+            toast("延迟时间有问题，任务不能执行")
+            return
+        }
+        val task = object : TimerTask() {
+            override fun run() {
+                loge(TAG, "run: start app count=$count")
+                when {
+                    count < 2 -> startAPP(this@MyTaskActivity, mPackageName)
+                    count < 3 -> {
                         startBrowser()
                         loge(TAG, "startBrowser:$count")
+                    }
+                    count < 4 -> {
+                        backToHome()
+                        loge(TAG, "backToHome:$count")
                     }
                     else -> {
                         loge(TAG, "task has canceled $count")
@@ -119,9 +161,8 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
         }
         timer = Timer(true)
         timer?.schedule(task, delay, interval)
-
         toast("--The task  has start，将于${simpleDateFormat.format(selectCalendar.time)}开始执行")
-        tvResult.text = "The task  has start，interval is：$interval ms, delayTime is:$delay"
+        tvResult.text = "The task  has start ${simpleDateFormat.format(selectCalendar.time)} ，interval is：$interval ms, delayTime is:$delay"
     }
 
     /*
@@ -151,8 +192,8 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun startBrowser() {
-        val uri = Uri.parse("http://prototype.sys.hxsapp.net:8088/V3.4.0")
-//        val uri = Uri.parse("https://www.baidu.com")
+        val uri = Uri.parse("http://prototype.sys.hxsapp.net:8088/V3.8.5/#g=1&p=a-9_3确认订单")
+//        val uri = Uri.parse("https://cn.bing.com")
         val intent = Intent(Intent.ACTION_VIEW, uri)
         startActivity(intent)
     }
@@ -169,12 +210,12 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
         when (v.id) {
             R.id.btnStartTask ->
                 startTimerTask()
-//                startAPP(this@MyTaskActivity, "com.alibaba.android.rimet")
+//                startAPP(this@MyTaskActivity, mPackageName)
             R.id.btnCancelTask -> {
 //                android.os.Process.killProcess(android.os.Process.myPid())
                 timer?.cancel()
                 tvResult.text = "任务已取消执行"
-                killAPP(this@MyTaskActivity, "com.alibaba.android.rimet")
+                killAPP(this@MyTaskActivity, mPackageName)
             }
             R.id.btnLock -> {
                 doLockJob()
@@ -215,9 +256,18 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
             val am = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
             val method = Class.forName("android.app.ActivityManager").getMethod("forceStopPackage", String::class.java)
             method.invoke(am, pkgName)
+            loge(TAG, "kill process  has  excuated")
         } catch (e: Exception) {
-//          java.lang.reflect.InvocationTargetException
+//          System.err: java.lang.reflect.InvocationTargetException
             e.printStackTrace()
+            loge(TAG, "kill process  exception:${e.message}")
         }
+    }
+
+    private fun shutDown() {
+        var intent = Intent("android.intent.action.ACTION_REQUEST_SHUTDOWN")
+        intent.putExtra("android.intent.extra.KEY_CONFIRM", false)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
     }
 }
