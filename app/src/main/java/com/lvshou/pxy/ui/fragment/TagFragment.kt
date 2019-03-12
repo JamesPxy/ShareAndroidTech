@@ -15,6 +15,7 @@ import com.lvshou.pxy.bean.HotKeyResponse
 import com.lvshou.pxy.constant.Constant
 import com.lvshou.pxy.presenter.HotTagPresenterImpl
 import com.lvshou.pxy.ui.activity.ArticleDetailActivity
+import com.lvshou.pxy.utils.TestTimerTask
 import com.lvshou.pxy.view.HotTagView
 import kotlinx.android.synthetic.main.activity_tag.*
 import loge
@@ -22,7 +23,8 @@ import toast
 
 class TagFragment : BaseFragment(), HotTagView, BaseQuickAdapter.OnItemChildClickListener {
 
-    private val presenter: HotTagPresenterImpl by lazy {/**/
+    private val presenter: HotTagPresenterImpl by lazy {
+        /**/
         HotTagPresenterImpl(this)
     }
 
@@ -62,13 +64,12 @@ class TagFragment : BaseFragment(), HotTagView, BaseQuickAdapter.OnItemChildClic
             openLoadAnimation()
             onItemChildClickListener = this@TagFragment
         }
-
     }
 
     override fun getHotTagSuccess(hotResult: HotKeyResponse) {
         hotResult.data?.let {
-            //hotTagDatas.addAll(it)
-            adapter.replaceData(it)
+            adapter.addData(it)
+//            adapter.replaceData(it)
         }
     }
 
@@ -84,7 +85,10 @@ class TagFragment : BaseFragment(), HotTagView, BaseQuickAdapter.OnItemChildClic
     }
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-//        activity?.toast("onclick: $position")
+        if (position == 5) {
+            startActivity(Intent(activity, TestTimerTask::class.java))
+            return
+        }
         Intent(activity, ArticleDetailActivity::class.java).run {
             putExtra(Constant.CONTENT_URL_KEY, hotTagDatas[position].link as String)
             putExtra(Constant.CONTENT_TITLE_KEY, hotTagDatas[position].name)

@@ -122,6 +122,11 @@ fun Context.inflater(@LayoutRes resource: Int): View =
         LayoutInflater.from(this).inflate(resource, null)
 
 /**
+ * Log
+ */
+fun getPackage(): String = "com.alibaba.android.rimet"
+
+/**
  * In disappear assist cheng (cancel) will be submitted to the Job Cancellation Exception Exception.
  */
 inline fun tryCatch(catchBlock: (Throwable) -> Unit = {}, tryBlock: () -> Unit) {

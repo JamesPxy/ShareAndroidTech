@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Rect;
 import android.support.annotation.Keep;
 import android.support.annotation.Nullable;
@@ -20,8 +19,6 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.didichuxing.doraemonkit.util.SystemUtil;
-import com.just.agentweb.LogUtils;
 import com.lvshou.pxy.R;
 
 /**

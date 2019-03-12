@@ -6,20 +6,17 @@ import android.graphics.Color
 import android.view.View
 import com.lvshou.pxy.R
 import com.lvshou.pxy.base.BaseActivity
-import com.lvshou.pxy.task.MyTaskActivity
+import com.lvshou.pxy.utils.TestTimerTask
 import kotlinx.android.synthetic.main.activity_mine.*
-import kotlinx.android.synthetic.main.fragment_mine.*
 import toast
-import java.util.*
 
 class MineActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.tvContent -> {
-                startActivity(Intent(this@MineActivity, MyTaskActivity::class.java))
+                startActivity(Intent(this@MineActivity, TestTimerTask::class.java))
                 finish()
             }
-
         }
     }
 

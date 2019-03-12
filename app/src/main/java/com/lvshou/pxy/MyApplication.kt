@@ -3,11 +3,9 @@ package com.lvshou.pxy
 import android.app.Application
 import android.content.ComponentCallbacks2
 import com.bumptech.glide.Glide
-import com.didichuxing.doraemonkit.DoraemonKit
 import com.lvshou.pxy.utils.CrashCatcher
 import com.lvshou.pxy.utils.PreferenceUtils
 import loge
-import com.didichuxing.doraemonkit.kit.IKit
 
 
 /**
@@ -33,7 +31,8 @@ class MyApplication : Application() {
             }
         }
 
-        DoraemonKit.install(this)
+        /*饿了么开发辅助工具*/
+//        DoraemonKit.install(this)
     }
 
     override fun onTrimMemory(level: Int) {

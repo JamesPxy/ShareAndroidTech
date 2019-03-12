@@ -18,7 +18,7 @@ android {
         flavorDimensions "pack"
         //占位符
         manifestPlaceholders = [UMENG_CHANNEL: "example"]
-        //NDK的配置
+        //NDK的配置 arm64-v8a
         ndk { abiFilters "armeabi", "armeabi-v7a", "x86", "mips" }
     }
 
@@ -197,7 +197,7 @@ dependencies {
 
     //一款功能齐全的客户端（iOS、Android）研发助手，你值得拥有。  https://github.com/didi/DoraemonKit.git
     //    只在Debug环境中进行集成，不要带到线上。有一些hook操作会污染线上代码
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.0.1'
+//    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.0.1'
 
 }
 kotlin {

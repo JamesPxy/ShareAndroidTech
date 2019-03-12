@@ -1,4 +1,4 @@
-package com.lvshou.pxy.task
+package com.lvshou.pxy.utils
 
 import android.app.ActivityManager
 import android.content.Context
@@ -10,7 +10,8 @@ import android.view.WindowManager
 import com.lvshou.pxy.R
 import com.lvshou.pxy.base.BaseActivity
 import com.lvshou.pxy.constant.Constant
-import com.lvshou.pxy.utils.PreferenceUtils
+import getPackage
+import kotlinx.android.synthetic.main.activity_my_task.*
 import kotlinx.android.synthetic.main.content_my_task.*
 import loge
 import toast
@@ -18,7 +19,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class MyTaskActivity : BaseActivity(), View.OnClickListener {
+class TestTimerTask : BaseActivity(), View.OnClickListener {
 
     private var TAG = "James"
     private val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
@@ -28,19 +29,21 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
     private val interval = 20 * 1000L//20s执行一次
     private var selectCalendar = Calendar.getInstance()
     private var timer: Timer? = null
-    private var mPackageName = "com.alibaba.android.rimet"
+    private var mPackageName = getPackage()
+    private var selectHour = 8
+    private var hasSelectDate = false
+    private var selectMinute = 50 + Random().nextInt(6) + 1
 
     override fun setLayoutId(): Int = R.layout.activity_my_task
 
     override fun init() {
         btnStartTask.setOnClickListener(this)
-        btnCancelTask.setOnClickListener(this)
+        btnFinishTask.setOnClickListener(this)
         btnLock.setOnClickListener(this)
+        floatButton.setOnClickListener(this)
         loge(TAG, readCount)
         tvResult.text = readCount
 
-        var selectHour = 8
-        var selectMinute = 53
         timePicker.setIs24HourView(true)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             timePicker.hour = selectHour
@@ -61,11 +64,9 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
                toast(simpleDateFormat.format(selectCalendar.time))
                tvTime.text = "The execute time is: ${simpleDateFormat.format(selectCalendar.time)}"
            }*/
-
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = System.currentTimeMillis()
-        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) + 1) { datePicker, year, month, dayOfMonth ->
+        datePicker.init(selectCalendar.get(Calendar.YEAR), selectCalendar.get(Calendar.MONTH), selectCalendar.get(Calendar.DAY_OF_MONTH) + 1) { datePicker, year, month, dayOfMonth ->
             loge(TAG, "Year=" + year + " Month=" + (month + 1) + " day=" + dayOfMonth)
+            hasSelectDate = true
             // 获取一个日历对象，并初始化为当前选中的时间
             selectCalendar.set(year, month, dayOfMonth, selectHour, selectMinute)
             toast(simpleDateFormat.format(selectCalendar.time))
@@ -79,6 +80,9 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
 
 
     private fun startTimerTask() {
+        if (!hasSelectDate) {
+            selectCalendar.set(selectCalendar.get(Calendar.YEAR), selectCalendar.get(Calendar.MONTH), selectCalendar.get(Calendar.DAY_OF_MONTH) + 1, selectHour, selectMinute)
+        }
         //得到毫秒 不用转换
         val delay = selectCalendar.time.time - Date().time
         if (delay < 0) {
@@ -89,29 +93,15 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
             override fun run() {
                 loge(TAG, "run: start app count=$count")
                 when {
-                    count < 2 -> startAPP(this@MyTaskActivity, mPackageName)
-                    count < 3 -> {
+                    count < 1 -> startAPP(this@TestTimerTask, mPackageName)
+                    count < 2 -> {
                         startBrowser()
                         loge(TAG, "startBrowser:$count")
                     }
-                    count < 4 -> {
+                    count < 3 -> {
                         backToHome()
                         loge(TAG, "backToHome:$count")
                     }
-                    /*  count < 4 -> {
-                          killProcess(mPackageName)
-                          loge(TAG, "killProcess $count")
-                      }
-                      count < 6 -> {
-                          startAPP(this@MyTaskActivity, mPackageName)
-                          loge(TAG, "startAPP $count")
-                      }
-                      count < 8 -> {
-                          backToHome()
-                          killProcess(mPackageName)
-                          startBrowser()
-                          loge(TAG, "startBrowser:$count")
-                      }*/
                     else -> {
                         loge(TAG, "task has canceled $count")
                         this.cancel()
@@ -126,34 +116,39 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
         timer?.schedule(task, delay, interval)
 
         toast("--The task  has start，将于${simpleDateFormat.format(selectCalendar.time)}开始执行")
-        tvResult.text = "The task  has start，interval is：$interval ms, delayTime is:$delay"
+        tvResult.text = "The task will be  executed at ${simpleDateFormat.format(selectCalendar.time)}, the delayTime is:$delay"
     }
 
     private fun startFinishTask() {
+        //重置计数
         count = 0
+        if (!hasSelectDate) {
+            selectCalendar = Calendar.getInstance()
+        }
         selectCalendar.set(Calendar.HOUR_OF_DAY, 18)
         selectCalendar.set(Calendar.MINUTE, 1)
         val delay = selectCalendar.time.time - Date().time
         if (delay < 0) {
-            toast("延迟时间有问题，任务不能执行")
+            toast("请先选择日期和具体时间!!!!")
             return
         }
         val task = object : TimerTask() {
             override fun run() {
-                loge(TAG, "run: start app count=$count")
+                loge(TAG, "run: FinishTask count=$count")
                 when {
-                    count < 2 -> startAPP(this@MyTaskActivity, mPackageName)
-                    count < 3 -> {
+                    count < 1 -> startAPP(this@TestTimerTask, mPackageName)
+                    count < 2 -> {
                         startBrowser()
                         loge(TAG, "startBrowser:$count")
                     }
-                    count < 4 -> {
+                    count < 3 -> {
                         backToHome()
                         loge(TAG, "backToHome:$count")
                     }
                     else -> {
                         loge(TAG, "task has canceled $count")
                         this.cancel()
+                        backToHome()
                     }
                 }
                 count++
@@ -183,17 +178,18 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
      * 执行锁定操作
      */
     private fun doLockJob() {
-        timePicker.isEnabled = false
-        datePicker.isEnabled = false
-        btnStartTask.isEnabled = false
-        btnCancelTask.isEnabled = false
+//        timePicker.isEnabled = false
+//        datePicker.isEnabled = false
+//        btnStartTask.isEnabled = false
+//        btnFinishTask.isEnabled = false
         rootView.visibility = View.INVISIBLE
+        floatButton.visibility = View.GONE
         toast("锁定成功:${simpleDateFormat.format(selectCalendar.time)}")
     }
 
     private fun startBrowser() {
-        val uri = Uri.parse("http://prototype.sys.hxsapp.net:8088/V3.8.5/#g=1&p=a-9_3确认订单")
-//        val uri = Uri.parse("https://cn.bing.com")
+        val uri = Uri.parse("http://prototype.sys.hxsapp.net:8088/V3.9.0/#g=1&p=d-1_4会员首页")
+//      val uri = Uri.parse("https://cn.bing.com")
         val intent = Intent(Intent.ACTION_VIEW, uri)
         startActivity(intent)
     }
@@ -208,14 +204,17 @@ class MyTaskActivity : BaseActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when (v.id) {
+            R.id.floatButton -> {
+                tvTime.visibility = View.VISIBLE
+                datePicker.visibility = View.VISIBLE
+                timePicker.visibility = View.VISIBLE
+            }
             R.id.btnStartTask ->
                 startTimerTask()
-//                startAPP(this@MyTaskActivity, mPackageName)
-            R.id.btnCancelTask -> {
-//                android.os.Process.killProcess(android.os.Process.myPid())
-                timer?.cancel()
-                tvResult.text = "任务已取消执行"
-                killAPP(this@MyTaskActivity, mPackageName)
+//                startAPP(this@TestTimerTask, mPackageName)
+            R.id.btnFinishTask -> {
+//              android.os.Process.killProcess(android.os.Process.myPid())
+                startFinishTask()
             }
             R.id.btnLock -> {
                 doLockJob()

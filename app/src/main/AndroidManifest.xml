@@ -61,8 +61,8 @@
             android:name=".ui.test.TestZip"
             android:label="@string/app_name" />
         <activity
-            android:name=".task.MyTaskActivity"
-            android:label="TestAtlas"
+            android:name=".utils.TestTimerTask"
+            android:label="TestTimerTask"
             android:theme="@style/MyTaskTheme" />
 
         <!-- android:process=":remote" -->
