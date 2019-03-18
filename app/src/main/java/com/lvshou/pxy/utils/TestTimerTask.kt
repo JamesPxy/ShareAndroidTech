@@ -32,7 +32,7 @@ class TestTimerTask : BaseActivity(), View.OnClickListener {
     private var mPackageName = getPackage()
     private var selectHour = 8
     private var hasSelectDate = false
-    private var selectMinute = 50 + Random().nextInt(6) + 1
+    private var selectMinute = 50 + Random().nextInt(5) + 1
 
     override fun setLayoutId(): Int = R.layout.activity_my_task
 
@@ -89,6 +89,7 @@ class TestTimerTask : BaseActivity(), View.OnClickListener {
             toast("请先选择日期和具体时间!!!!")
             return
         }
+        count = 0
         val task = object : TimerTask() {
             override fun run() {
                 loge(TAG, "run: start app count=$count")
@@ -107,6 +108,7 @@ class TestTimerTask : BaseActivity(), View.OnClickListener {
                         this.cancel()
                         //启动结束任务
                         startFinishTask()
+                        backToHome()
                     }
                 }
                 count++
@@ -126,7 +128,7 @@ class TestTimerTask : BaseActivity(), View.OnClickListener {
             selectCalendar = Calendar.getInstance()
         }
         selectCalendar.set(Calendar.HOUR_OF_DAY, 18)
-        selectCalendar.set(Calendar.MINUTE, 1)
+        selectCalendar.set(Calendar.MINUTE, 2)
         val delay = selectCalendar.time.time - Date().time
         if (delay < 0) {
             toast("请先选择日期和具体时间!!!!")
@@ -148,6 +150,7 @@ class TestTimerTask : BaseActivity(), View.OnClickListener {
                     else -> {
                         loge(TAG, "task has canceled $count")
                         this.cancel()
+                        startTimerTask()
                         backToHome()
                     }
                 }
