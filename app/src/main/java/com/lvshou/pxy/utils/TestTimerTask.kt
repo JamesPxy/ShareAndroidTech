@@ -25,14 +25,13 @@ class TestTimerTask : BaseActivity(), View.OnClickListener {
     private val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
     private var count = 0
     private var readCount: String by PreferenceUtils(Constant.START_APP_COUNT, "暂无记录，没有数据")
-    //private val interval = 10 * 1000L//2分钟执行一次
-    private val interval = 20 * 1000L//20s执行一次
+    private val interval = 30 * 1000L
     private var selectCalendar = Calendar.getInstance()
     private var timer: Timer? = null
     private var mPackageName = getPackage()
     private var selectHour = 8
     private var hasSelectDate = false
-    private var selectMinute = 50 + Random().nextInt(5) + 1
+    private var selectMinute = 50 + Random().nextInt(5) + 2
 
     override fun setLayoutId(): Int = R.layout.activity_my_task
 
@@ -128,7 +127,7 @@ class TestTimerTask : BaseActivity(), View.OnClickListener {
             selectCalendar = Calendar.getInstance()
         }
         selectCalendar.set(Calendar.HOUR_OF_DAY, 18)
-        selectCalendar.set(Calendar.MINUTE, 2)
+        selectCalendar.set(Calendar.MINUTE, 8)
         val delay = selectCalendar.time.time - Date().time
         if (delay < 0) {
             toast("请先选择日期和具体时间!!!!")
